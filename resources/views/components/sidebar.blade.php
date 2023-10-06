@@ -79,15 +79,6 @@
                         </ul>
                     </li>
                 @endcan
-                @can('proposals_upgrades_state_access')
-                    <li class="items-center">
-                        <a class="{{ request()->is("admin/proposals-upgrades-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.proposals-upgrades-states.index") }}">
-                            <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
-                            </i>
-                            {{ trans('cruds.proposalsUpgradesState.title') }}
-                        </a>
-                    </li>
-                @endcan
 
                 @if(file_exists(app_path('Http/Controllers/Auth/UserProfileController.php')))
                     @can('auth_profile_edit')

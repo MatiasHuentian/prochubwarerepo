@@ -9,8 +9,8 @@ return [
     'flatpickr_datetime_format' => 'd/m/Y H:i:S',
     'supported_languages'       => [
         [
-            'title'      => 'English',
-            'short_code' => 'en',
+            'title'      => 'Spanish',
+            'short_code' => 'es',
         ],
     ],
     'pagination' => [

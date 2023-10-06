@@ -5,30 +5,35 @@ namespace App\Models;
 use App\Support\HasAdvancedFilter;
 use Carbon\Carbon;
 use DateTimeInterface;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements HasLocalePreference
+class User extends Authenticatable
 {
-    use HasFactory, HasAdvancedFilter, Notifiable, SoftDeletes;
+    use HasFactory, HasAdvancedFilter, Notifiable, SoftDeletes ,HasApiTokens,HasProfilePhoto,TwoFactorAuthenticatable;
 
     public $table = 'users';
-
-    protected $hidden = [
-        'remember_token',
-        'password',
-    ];
 
     protected $fillable = [
         'name',
         'email',
         'password',
         'locale',
+    ];
+
+    protected $hidden = [
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'remember_token',
+        'password',
     ];
 
     public $orderable = [
@@ -53,6 +58,9 @@ class User extends Authenticatable implements HasLocalePreference
         'email_verified_at',
         'roles.title',
         'locale',
+    ];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 
     public function getIsAdminAttribute()
