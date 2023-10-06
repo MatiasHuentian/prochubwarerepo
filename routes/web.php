@@ -34,20 +34,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-// Esta es la página del admin;
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
-    // Permissions
-    Route::resource('permissions', PermissionController::class, ['except' => ['store', 'update', 'destroy']]);
-
-    // Roles
-    Route::resource('roles', RoleController::class, ['except' => ['store', 'update', 'destroy']]);
-
-    // Users
-    Route::resource('users', UserController::class, ['except' => ['store', 'update', 'destroy']]);
-});
-
 // Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth']], function () {
 //     if (file_exists(app_path('Http/Controllers/Auth/UserProfileController.php'))) {
 //         Route::get('/', [UserProfileController::class, 'show'])->name('show');
