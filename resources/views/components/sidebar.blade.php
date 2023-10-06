@@ -79,6 +79,75 @@
                         </ul>
                     </li>
                 @endcan
+                @can('tablas_maestra_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/directions*")||request()->is("admin/dependencies*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-table">
+                            </i>
+                            {{ trans('cruds.tablasMaestra.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('direction_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/directions*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.directions.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-briefcase">
+                                        </i>
+                                        {{ trans('cruds.direction.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('dependency_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/dependencies*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.dependencies.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-sitemap">
+                                        </i>
+                                        {{ trans('cruds.dependency.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('process_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-cogs">
+                            </i>
+                            {{ trans('cruds.process.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('processes_state_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes-states.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon far fa-circle">
+                                        </i>
+                                        {{ trans('cruds.processesState.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('propuesta_mejora_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/upgrade-proposals-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-cogs">
+                            </i>
+                            {{ trans('cruds.propuestaMejora.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('upgrade_proposals_state_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/upgrade-proposals-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.upgrade-proposals-states.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        </i>
+                                        {{ trans('cruds.upgradeProposalsState.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
 
                 @if(file_exists(app_path('Http/Controllers/Auth/UserProfileController.php')))
                     @can('auth_profile_edit')

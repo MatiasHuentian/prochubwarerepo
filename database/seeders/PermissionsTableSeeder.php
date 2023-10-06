@@ -80,23 +80,79 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 18,
-                'title' => 'proposals_upgrades_state_create',
+                'title' => 'tablas_maestra_access',
             ],
             [
                 'id'    => 19,
-                'title' => 'proposals_upgrades_state_edit',
+                'title' => 'direction_create',
             ],
             [
                 'id'    => 20,
-                'title' => 'proposals_upgrades_state_show',
+                'title' => 'direction_edit',
             ],
             [
                 'id'    => 21,
-                'title' => 'proposals_upgrades_state_delete',
+                'title' => 'direction_delete',
             ],
             [
                 'id'    => 22,
-                'title' => 'proposals_upgrades_state_access',
+                'title' => 'direction_access',
+            ],
+            [
+                'id'    => 23,
+                'title' => 'dependency_create',
+            ],
+            [
+                'id'    => 24,
+                'title' => 'dependency_edit',
+            ],
+            [
+                'id'    => 25,
+                'title' => 'dependency_delete',
+            ],
+            [
+                'id'    => 26,
+                'title' => 'dependency_access',
+            ],
+            [
+                'id'    => 27,
+                'title' => 'process_access',
+            ],
+            [
+                'id'    => 28,
+                'title' => 'processes_state_create',
+            ],
+            [
+                'id'    => 29,
+                'title' => 'processes_state_edit',
+            ],
+            [
+                'id'    => 30,
+                'title' => 'processes_state_delete',
+            ],
+            [
+                'id'    => 31,
+                'title' => 'processes_state_access',
+            ],
+            [
+                'id'    => 32,
+                'title' => 'propuesta_mejora_access',
+            ],
+            [
+                'id'    => 33,
+                'title' => 'upgrade_proposals_state_create',
+            ],
+            [
+                'id'    => 34,
+                'title' => 'upgrade_proposals_state_edit',
+            ],
+            [
+                'id'    => 35,
+                'title' => 'upgrade_proposals_state_delete',
+            ],
+            [
+                'id'    => 36,
+                'title' => 'upgrade_proposals_state_access',
             ],
         ];
 
