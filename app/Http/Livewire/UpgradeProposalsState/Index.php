@@ -4,7 +4,7 @@ namespace App\Http\Livewire\UpgradeProposalsState;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\UpgradeProposalsState;
+use App\Models\Admin\UpgradeProposalsState;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

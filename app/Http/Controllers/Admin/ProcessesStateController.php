@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProcessesState;
+use App\Http\Controllers\Traits\WithCSVImport;
+use App\Models\Admin\ProcessesState;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProcessesStateController extends Controller
 {
+    use WithCSVImport;
+
     public function index()
     {
         abort_if(Gate::denies('processes_state_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -29,5 +32,10 @@ class ProcessesStateController extends Controller
         abort_if(Gate::denies('processes_state_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.processes-state.edit', compact('processesState'));
+    }
+
+    public function __construct()
+    {
+        $this->csvImportModel = ProcessesState::class;
     }
 }

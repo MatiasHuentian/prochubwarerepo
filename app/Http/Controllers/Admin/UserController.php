@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Controllers\Traits\WithCSVImport;
+use App\Models\Admin\User;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    use WithCSVImport;
+
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -38,5 +41,10 @@ class UserController extends Controller
         $user->load('roles');
 
         return view('admin.user.show', compact('user'));
+    }
+
+    public function __construct()
+    {
+        $this->csvImportModel = User::class;
     }
 }

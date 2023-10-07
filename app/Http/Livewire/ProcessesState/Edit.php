@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\ProcessesState;
 
-use App\Models\ProcessesState;
+use App\Models\Admin\ProcessesState;
 use Livewire\Component;
 
 class Edit extends Component

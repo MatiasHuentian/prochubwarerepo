@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use App\Support\HasAdvancedFilter;
+use App\Traits\Auditable;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Permission extends Model
+class Role extends Model
 {
-    use HasFactory, HasAdvancedFilter, SoftDeletes;
+    use HasFactory, HasAdvancedFilter, SoftDeletes, Auditable;
 
-    public $table = 'permissions';
+    public $table = 'roles';
 
     protected $fillable = [
         'title',
@@ -27,6 +28,7 @@ class Permission extends Model
     public $filterable = [
         'id',
         'title',
+        'permissions.title',
     ];
 
     protected $dates = [
@@ -38,6 +40,11 @@ class Permission extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
     }
 
     public function getCreatedAtAttribute($value)

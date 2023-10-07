@@ -4,7 +4,7 @@ namespace App\Http\Livewire\ProcessesState;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\ProcessesState;
+use App\Models\Admin\ProcessesState;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Dependency;
 
-use App\Models\Dependency;
-use App\Models\Direction;
+use App\Models\Admin\Dependency;
+use App\Models\Admin\Direction;
 use Livewire\Component;
 
 class Edit extends Component

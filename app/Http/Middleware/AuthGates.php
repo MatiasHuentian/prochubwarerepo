@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Admin\Role;
+use App\Models\Admin\User;
 use Closure;
 use Illuminate\Support\Facades\Gate;
 

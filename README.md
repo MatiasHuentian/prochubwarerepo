@@ -1,3 +1,8 @@
+Aclaraciones de cambios:
+Ojo con el composer, por lo general hay que dejarlo el original.
+Ojo con el modelo User, el resto de modelos no debería ser problema
+Las migraciones, por parte del adminstrador irán en uan carpeta distinta, en caso de hacer algo, hay que eliminar todo lo que existio antes, y reemplazarlo
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

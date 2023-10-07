@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Models;
+
+namespace App\Models\Admin;
 
 use App\Support\HasAdvancedFilter;
+use App\Traits\Auditable;
+use App\Traits\UserJetstream;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Support\Facades\Hash;
@@ -12,28 +15,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
-    use HasFactory, HasAdvancedFilter, Notifiable, SoftDeletes ,HasApiTokens,HasProfilePhoto,TwoFactorAuthenticatable;
+    use HasFactory, HasAdvancedFilter, Notifiable, SoftDeletes, Auditable, UserJetstream;
 
     public $table = 'users';
+
+    protected $hidden = [
+        'remember_token',
+        'password',
+    ];
 
     protected $fillable = [
         'name',
         'email',
         'password',
         'locale',
-    ];
-
-    protected $hidden = [
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-        'remember_token',
-        'password',
     ];
 
     public $orderable = [
@@ -58,9 +56,6 @@ class User extends Authenticatable
         'email_verified_at',
         'roles.title',
         'locale',
-    ];
-    protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 
     public function getIsAdminAttribute()

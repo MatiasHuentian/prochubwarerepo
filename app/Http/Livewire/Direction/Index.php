@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Direction;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\Direction;
+use App\Models\Admin\Direction;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

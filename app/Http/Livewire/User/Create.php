@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\User;
 
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Admin\Role;
+use App\Models\Admin\User;
 use Livewire\Component;
 
 class Create extends Component

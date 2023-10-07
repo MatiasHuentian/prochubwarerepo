@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Permission;
+use App\Models\Admin\Permission;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -157,6 +157,14 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => 37,
                 'title' => 'activity_access',
+            ],
+            [
+                'id'    => 38,
+                'title' => 'audit_log_show',
+            ],
+            [
+                'id'    => 39,
+                'title' => 'audit_log_access',
             ],
         ];
 
