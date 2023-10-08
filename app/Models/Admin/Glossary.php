@@ -3,38 +3,34 @@
 namespace App\Models\Admin;
 
 use App\Support\HasAdvancedFilter;
-use App\Traits\Auditable;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Dependency extends Model
+class Glossary extends Model
 {
-    use HasFactory, HasAdvancedFilter, SoftDeletes, Auditable;
+    use HasFactory, HasAdvancedFilter, SoftDeletes;
 
-    public $table = 'dependencies';
-
-    public static $search = [
-        'name',
-    ];
+    public $table = 'glossaries';
 
     protected $fillable = [
-        'name',
-        'direction_id',
+        'term',
+    ];
+
+    public static $search = [
+        'term',
     ];
 
     public $orderable = [
         'id',
-        'name',
-        'direction.name',
+        'term',
     ];
 
     public $filterable = [
         'id',
-        'name',
-        'direction.name',
+        'term',
     ];
 
     protected $dates = [
@@ -46,11 +42,6 @@ class Dependency extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-    }
-
-    public function direction()
-    {
-        return $this->belongsTo(Direction::class);
     }
 
     public function getCreatedAtAttribute($value)

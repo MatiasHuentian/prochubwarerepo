@@ -14,6 +14,10 @@ class UpgradeProposalsState extends Model
 {
     use HasFactory, HasAdvancedFilter, SoftDeletes, Auditable;
 
+    public static $search = [
+        'name',
+    ];
+
     public $table = 'upgrade_proposals_states';
 
     protected $fillable = [

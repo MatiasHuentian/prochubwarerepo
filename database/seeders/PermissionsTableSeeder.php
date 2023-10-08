@@ -166,6 +166,94 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 39,
                 'title' => 'audit_log_access',
             ],
+            [
+                'id'    => 40,
+                'title' => 'attachmentsfile_access',
+            ],
+            [
+                'id'    => 41,
+                'title' => 'attachments_type_create',
+            ],
+            [
+                'id'    => 42,
+                'title' => 'attachments_type_edit',
+            ],
+            [
+                'id'    => 43,
+                'title' => 'attachments_type_show',
+            ],
+            [
+                'id'    => 44,
+                'title' => 'attachments_type_delete',
+            ],
+            [
+                'id'    => 45,
+                'title' => 'attachments_type_access',
+            ],
+            [
+                'id'    => 46,
+                'title' => 'attachments_category_create',
+            ],
+            [
+                'id'    => 47,
+                'title' => 'attachments_category_edit',
+            ],
+            [
+                'id'    => 48,
+                'title' => 'attachments_category_show',
+            ],
+            [
+                'id'    => 49,
+                'title' => 'attachments_category_delete',
+            ],
+            [
+                'id'    => 50,
+                'title' => 'attachments_category_access',
+            ],
+            [
+                'id'    => 51,
+                'title' => 'processes_manual_access',
+            ],
+            [
+                'id'    => 52,
+                'title' => 'input_create',
+            ],
+            [
+                'id'    => 53,
+                'title' => 'input_edit',
+            ],
+            [
+                'id'    => 54,
+                'title' => 'input_show',
+            ],
+            [
+                'id'    => 55,
+                'title' => 'input_delete',
+            ],
+            [
+                'id'    => 56,
+                'title' => 'input_access',
+            ],
+            [
+                'id'    => 57,
+                'title' => 'glossary_create',
+            ],
+            [
+                'id'    => 58,
+                'title' => 'glossary_edit',
+            ],
+            [
+                'id'    => 59,
+                'title' => 'glossary_show',
+            ],
+            [
+                'id'    => 60,
+                'title' => 'glossary_delete',
+            ],
+            [
+                'id'    => 61,
+                'title' => 'glossary_access',
+            ],
         ];
 
         Permission::insert($permissions);

@@ -16,6 +16,10 @@ class ProcessesState extends Model
 
     public $table = 'processes_states';
 
+    public static $search = [
+        'name',
+    ];
+
     protected $fillable = [
         'name',
         'color',

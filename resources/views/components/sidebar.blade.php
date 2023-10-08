@@ -22,7 +22,11 @@
                 </div>
             </div>
 
-
+            <form class="mt-6 mb-4 md:hidden">
+                <div class="mb-3 pt-0">
+                    @livewire('global-search')
+                </div>
+            </form>
 
             <!-- Divider -->
             <div class="flex md:hidden">
@@ -148,9 +152,67 @@
                             @can('upgrade_proposals_state_access')
                                 <li class="items-center">
                                     <a class="{{ request()->is("admin/upgrade-proposals-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.upgrade-proposals-states.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        <i class="fa-fw c-sidebar-nav-icon far fa-circle">
                                         </i>
                                         {{ trans('cruds.upgradeProposalsState.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('attachmentsfile_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/attachments-types*")||request()->is("admin/attachments-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-copy">
+                            </i>
+                            {{ trans('cruds.attachmentsfile.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('attachments_type_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/attachments-types*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.attachments-types.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon far fa-copy">
+                                        </i>
+                                        {{ trans('cruds.attachmentsType.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('attachments_category_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/attachments-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.attachments-categories.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-file-alt">
+                                        </i>
+                                        {{ trans('cruds.attachmentsCategory.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('processes_manual_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/inputs*")||request()->is("admin/glossaries*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-book-open">
+                            </i>
+                            {{ trans('cruds.processesManual.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('input_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/inputs*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.inputs.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-sign-in-alt">
+                                        </i>
+                                        {{ trans('cruds.input.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('glossary_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/glossaries*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.glossaries.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        </i>
+                                        {{ trans('cruds.glossary.title') }}
                                     </a>
                                 </li>
                             @endcan
@@ -177,6 +239,5 @@
                 </li>
             </ul>
         </div>
-    </
-div>
+    </div>
 </nav>

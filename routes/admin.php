@@ -53,6 +53,24 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     // Audit Logs
     Route::resource('audit-logs', AuditLogController::class, ['except' => ['store', 'update', 'destroy', 'create', 'edit']]);
+
+    // Attachments Type
+    Route::post('attachments-types/csv', [AttachmentsTypeController::class, 'csvStore'])->name('attachments-types.csv.store');
+    Route::put('attachments-types/csv', [AttachmentsTypeController::class, 'csvUpdate'])->name('attachments-types.csv.update');
+    Route::resource('attachments-types', AttachmentsTypeController::class, ['except' => ['store', 'update', 'destroy']]);
+
+    // Attachments Category
+    Route::post('attachments-categories/csv', [AttachmentsCategoryController::class, 'csvStore'])->name('attachments-categories.csv.store');
+    Route::put('attachments-categories/csv', [AttachmentsCategoryController::class, 'csvUpdate'])->name('attachments-categories.csv.update');
+    Route::resource('attachments-categories', AttachmentsCategoryController::class, ['except' => ['store', 'update', 'destroy']]);
+
+    // Input
+    Route::post('inputs/csv', [InputController::class, 'csvStore'])->name('inputs.csv.store');
+    Route::put('inputs/csv', [InputController::class, 'csvUpdate'])->name('inputs.csv.update');
+    Route::resource('inputs', InputController::class, ['except' => ['store', 'update', 'destroy']]);
+
+    // Glossary
+    Route::resource('glossaries', GlossaryController::class, ['except' => ['store', 'update', 'destroy']]);
 });
 
 // Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth']], function () {

@@ -10,31 +10,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Dependency extends Model
+class AttachmentsCategory extends Model
 {
     use HasFactory, HasAdvancedFilter, SoftDeletes, Auditable;
 
-    public $table = 'dependencies';
+    protected $fillable = [
+        'name',
+    ];
 
     public static $search = [
         'name',
     ];
 
-    protected $fillable = [
-        'name',
-        'direction_id',
-    ];
+    public $table = 'attachments_categories';
 
     public $orderable = [
         'id',
         'name',
-        'direction.name',
     ];
 
     public $filterable = [
         'id',
         'name',
-        'direction.name',
     ];
 
     protected $dates = [
@@ -46,11 +43,6 @@ class Dependency extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-    }
-
-    public function direction()
-    {
-        return $this->belongsTo(Direction::class);
     }
 
     public function getCreatedAtAttribute($value)

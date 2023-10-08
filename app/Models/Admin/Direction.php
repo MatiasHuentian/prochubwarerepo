@@ -20,6 +20,10 @@ class Direction extends Model
         'name',
     ];
 
+    public static $search = [
+        'name',
+    ];
+
     public $orderable = [
         'id',
         'name',
