@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Permission;
 
-use App\Models\Admin\Permission;
+use App\Models\Permission;
 use Livewire\Component;
 
 class Edit extends Component

@@ -1,23 +1,47 @@
-import './bootstrap';
-import '../css/app.css';
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
 
-import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+require('./bootstrap')
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+/* Sidebar - Side navigation menu on mobile/responsive mode */
+window.toggleNavbar = function (collapseID) {
+  document.getElementById(collapseID).classList.toggle('hidden')
+  document.getElementById(collapseID).classList.toggle('bg-white')
+  document.getElementById(collapseID).classList.toggle('m-2')
+  document.getElementById(collapseID).classList.toggle('py-3')
+  document.getElementById(collapseID).classList.toggle('px-6')
+}
 
-createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
-    setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
-    },
-    progress: {
-        color: '#4B5563',
-    },
-});
+/* Opens sidebar navigation that contains sub-items */
+window.openSubNav = function (el) {
+  el.nextElementSibling.classList.toggle('hidden')
+}
+
+window.initialSubNavLoad = function () {
+  document.getElementsByClassName('has-sub sidebar-nav-active').forEach(function(el) {
+    window.openSubNav(el)
+  })
+}
+
+/* Opens sidebar navigation that contains sub-items */
+initialSubNavLoad()
+
+/* Function for dropdowns */
+window.openDropdown = function openDropdown(event, dropdownID) {
+  let element = event.target;
+  while (element.nodeName !== "A") {
+    element = element.parentNode;
+  }
+  Popper.createPopper(element, document.getElementById(dropdownID), {
+    placement: "bottom-start",
+  });
+  document.getElementById(dropdownID).classList.toggle("hidden");
+  document.getElementById(dropdownID).classList.toggle("block");
+
+  if (dropdownID == 'nav-notification-dropdown') {
+    fetch('/admin/user-alerts/seen')
+  }
+}

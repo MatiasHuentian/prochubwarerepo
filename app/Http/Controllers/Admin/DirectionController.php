@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\WithCSVImport;
-use App\Models\Admin\Direction;
+use App\Models\Direction;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

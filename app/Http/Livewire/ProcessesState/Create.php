@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\ProcessesState;
 
-use App\Models\Admin\ProcessesState;
+use App\Models\ProcessesState;
 use Livewire\Component;
 
 class Create extends Component
