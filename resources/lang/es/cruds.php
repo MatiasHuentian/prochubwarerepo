@@ -105,10 +105,6 @@ return [
             'deleted_at_helper' => ' ',
         ],
     ],
-    'process' => [
-        'title'          => 'Procesos',
-        'title_singular' => 'Proceso',
-    ],
     'processesState' => [
         'title'          => 'Estados de Procesos',
         'title_singular' => 'Estados de Proceso',
@@ -250,6 +246,28 @@ return [
             'deleted_at'        => 'Deleted at',
             'deleted_at_helper' => ' ',
         ],
+    ],
+    'process' => [
+        'title'          => 'Procesos',
+        'title_singular' => 'Proceso',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'objective'         => 'Objetivo',
+            'objective_helper'  => 'Escriba el objetivo del proceso',
+            'glosary'           => 'Glosario',
+            'glosary_helper'    => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+        ],
+    ],
+    'processMenu' => [
+        'title'          => 'Procesos',
+        'title_singular' => 'Proceso',
     ],
 
 ];

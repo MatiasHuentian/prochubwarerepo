@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Direction;
 
-use App\Models\Admin\Direction;
+use App\Models\Direction;
 use Livewire\Component;
 
 class Create extends Component

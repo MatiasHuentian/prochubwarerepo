@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Input;
 
-use App\Models\Admin\Input;
+use App\Models\Input;
 use Livewire\Component;
 
 class Edit extends Component

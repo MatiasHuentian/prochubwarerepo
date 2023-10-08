@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\WithCSVImport;
-use App\Models\Admin\UpgradeProposalsState;
+use App\Models\UpgradeProposalsState;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

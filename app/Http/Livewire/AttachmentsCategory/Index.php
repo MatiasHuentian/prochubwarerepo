@@ -4,7 +4,7 @@ namespace App\Http\Livewire\AttachmentsCategory;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\Admin\AttachmentsCategory;
+use App\Models\AttachmentsCategory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

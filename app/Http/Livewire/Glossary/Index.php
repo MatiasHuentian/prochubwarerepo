@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Glossary;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\Admin\Glossary;
+use App\Models\Glossary;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

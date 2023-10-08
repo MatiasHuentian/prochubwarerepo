@@ -4,7 +4,7 @@ namespace App\Http\Livewire\AuditLog;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\Admin\Auditlog;
+use App\Models\AuditLog;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

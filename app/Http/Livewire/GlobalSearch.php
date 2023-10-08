@@ -92,4 +92,3 @@ class GlobalSearch extends Component
         return collect($models)->sort()->all();
     }
 }
-

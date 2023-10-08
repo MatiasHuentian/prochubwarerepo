@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\AttachmentsCategory;
 
-use App\Models\Admin\AttachmentsCategory;
+use App\Models\AttachmentsCategory;
 use Livewire\Component;
 
 class Create extends Component

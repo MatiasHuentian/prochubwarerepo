@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\WithCSVImport;
-use App\Models\Admin\AttachmentsType;
+use App\Models\AttachmentsType;
+use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Gate;
 
 class AttachmentsTypeController extends Controller
 {

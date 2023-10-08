@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Glossary;
 
-use App\Models\Admin\Glossary;
+use App\Models\Glossary;
 use Livewire\Component;
 
 class Edit extends Component

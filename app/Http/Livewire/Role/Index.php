@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Role;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\Admin\Role;
+use App\Models\Role;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;

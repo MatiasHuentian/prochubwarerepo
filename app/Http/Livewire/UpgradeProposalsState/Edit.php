@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\UpgradeProposalsState;
 
-use App\Models\Admin\UpgradeProposalsState;
+use App\Models\UpgradeProposalsState;
 use Livewire\Component;
 
 class Edit extends Component

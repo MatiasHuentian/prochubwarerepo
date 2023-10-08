@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\AttachmentsType;
 
-use App\Models\Admin\AttachmentsType;
+use App\Models\AttachmentsType;
 use Livewire\Component;
 
 class Create extends Component

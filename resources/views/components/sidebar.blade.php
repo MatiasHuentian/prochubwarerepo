@@ -121,26 +121,6 @@
                         </ul>
                     </li>
                 @endcan
-                @can('process_access')
-                    <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-cogs">
-                            </i>
-                            {{ trans('cruds.process.title') }}
-                        </a>
-                        <ul class="ml-4 subnav hidden">
-                            @can('processes_state_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes-states.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon far fa-circle">
-                                        </i>
-                                        {{ trans('cruds.processesState.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan
                 @can('propuesta_mejora_access')
                     <li class="items-center">
                         <a class="has-sub {{ request()->is("admin/upgrade-proposals-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
@@ -213,6 +193,35 @@
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
                                         </i>
                                         {{ trans('cruds.glossary.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                @can('process_menu_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/processes-states*")||request()->is("admin/processes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-cogs">
+                            </i>
+                            {{ trans('cruds.processMenu.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('processes_state_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes-states.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon far fa-circle">
+                                        </i>
+                                        {{ trans('cruds.processesState.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('process_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/processes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        </i>
+                                        {{ trans('cruds.process.title') }}
                                     </a>
                                 </li>
                             @endcan
