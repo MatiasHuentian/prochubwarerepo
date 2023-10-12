@@ -38,7 +38,7 @@ class ProcessController extends Controller
     {
         abort_if(Gate::denies('process_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $process->load('glosary');
+        $process->load('owner', 'dependency', 'state', 'glosary', 'input', 'output', 'objectiveGroup');
 
         return view('admin.process.show', compact('process'));
     }

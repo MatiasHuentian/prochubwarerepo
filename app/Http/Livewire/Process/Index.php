@@ -67,7 +67,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Process::with(['glosary'])->advancedFilter([
+        $query = Process::with(['owner', 'dependency', 'state', 'glosary', 'input', 'output', 'objectiveGroup'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
