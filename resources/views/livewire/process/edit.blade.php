@@ -12,7 +12,9 @@
     </div>
     <div class="form-group {{ $errors->has('glosary') ? 'invalid' : '' }}">
         <label class="form-label" for="glosary">{{ trans('cruds.process.fields.glosary') }}</label>
-        <x-select-list class="form-control" id="glosary" name="glosary" wire:model="glosary" :options="$this->listsForFields['glosary']" multiple />
+        @include('admin.recipes.partials.glossaries')
+        {{-- <x-select-list class="form-control" id="glosary" name="glosary" wire:model="glosary" :options="$this->listsForFields['glosary']"
+            multiple /> --}}
         <div class="validation-message">
             {{ $errors->first('glosary') }}
         </div>

@@ -10,14 +10,13 @@ class Create extends Component
 {
     public Process $process;
 
-    public array $glosary = [];
-
-    public array $listsForFields = [];
+    public $selectedGlossaries = [];
+    public $allGlossaries = [];
 
     public function mount(Process $process)
     {
+        $this->allGlossaries = Glossary::all();
         $this->process = $process;
-        $this->initListsForFields();
     }
 
     public function render()
@@ -30,9 +29,20 @@ class Create extends Component
         $this->validate();
 
         $this->process->save();
-        $this->process->glosary()->sync($this->glosary);
+        $this->process->glosary()->sync( $this->selectedGlossaries);
 
         return redirect()->route('admin.processes.index');
+    }
+
+    public function addGlossary()
+    {
+        $this->selectedGlossaries[] = ['glossary_id' => '', 'description' => ""];
+    }
+
+    public function removeGlossary($index)
+    {
+        unset($this->selectedGlossaries[$index]);
+        $this->selectedGlossaries = array_values($this->selectedGlossaries);
     }
 
     protected function rules(): array
@@ -42,18 +52,16 @@ class Create extends Component
                 'string',
                 'nullable',
             ],
-            'glosary' => [
+            'selectedGlossaries' => [
                 'array',
             ],
-            'glosary.*.id' => [
+            'selectedGlossaries.*.glossary_id' => [
                 'integer',
-                'exists:glossaries,id',
+                'exists:glossaries,id'
+            ],
+            'selectedGlossaries.*.description' => [
+                'string'
             ],
         ];
-    }
-
-    protected function initListsForFields(): void
-    {
-        $this->listsForFields['glosary'] = Glossary::pluck('term', 'id')->toArray();
     }
 }

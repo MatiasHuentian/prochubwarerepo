@@ -47,6 +47,11 @@ class Process extends Model
         return $this->belongsToMany(Glossary::class);
     }
 
+    public function glossaries()
+    {
+        return $this->belongsToMany(Glossary::class)->withPivot('description');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;

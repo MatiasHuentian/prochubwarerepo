@@ -4,21 +4,21 @@ namespace App\Http\Livewire\Process;
 
 use App\Models\Glossary;
 use App\Models\Process;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public Process $process;
 
-    public array $glosary = [];
-
-    public array $listsForFields = [];
+    public $selectedGlossaries = [];
+    public $allGlossaries = [];
 
     public function mount(Process $process)
     {
-        $this->process = $process;
-        $this->glosary = $this->process->glosary()->pluck('id')->toArray();
-        $this->initListsForFields();
+        $this->process = $process->load('glossaries');
+        $this->allGlossaries = Glossary::all();
+        $this->mapGlossary();
     }
 
     public function render()
@@ -31,9 +31,20 @@ class Edit extends Component
         $this->validate();
 
         $this->process->save();
-        $this->process->glosary()->sync($this->glosary);
+        $this->process->glosary()->sync( $this->selectedGlossaries);
 
         return redirect()->route('admin.processes.index');
+    }
+
+    public function addGlossary()
+    {
+        $this->selectedGlossaries[] = ['glossary_id' => '', 'description' => ""];
+    }
+
+    public function removeGlossary($index)
+    {
+        unset($this->selectedGlossaries[$index]);
+        $this->selectedGlossaries = array_values($this->selectedGlossaries);
     }
 
     protected function rules(): array
@@ -43,18 +54,28 @@ class Edit extends Component
                 'string',
                 'nullable',
             ],
-            'glosary' => [
+            'selectedGlossaries' => [
                 'array',
             ],
-            'glosary.*.id' => [
+            'selectedGlossaries.*.glossary_id' => [
                 'integer',
-                'exists:glossaries,id',
+                'exists:glossaries,id'
+            ],
+            'selectedGlossaries.*.description' => [
+                'string'
             ],
         ];
     }
 
-    protected function initListsForFields(): void
+    public function mapGlossary()
     {
-        $this->listsForFields['glosary'] = Glossary::pluck('term', 'id')->toArray();
+        $this->selectedGlossaries = $this->process->glossaries->map(function ($item) {
+            return [
+                'glossary_id' => $item->pivot->glossary_id,
+                // 'term' => $item->term,
+                'description' => $item->pivot->description,
+            ];
+        });
     }
+
 }
