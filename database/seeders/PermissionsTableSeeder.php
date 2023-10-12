@@ -274,6 +274,114 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 66,
                 'title' => 'process_menu_access',
             ],
+            [
+                'id'    => 67,
+                'title' => 'output_create',
+            ],
+            [
+                'id'    => 68,
+                'title' => 'output_edit',
+            ],
+            [
+                'id'    => 69,
+                'title' => 'output_show',
+            ],
+            [
+                'id'    => 70,
+                'title' => 'output_delete',
+            ],
+            [
+                'id'    => 71,
+                'title' => 'output_access',
+            ],
+            [
+                'id'    => 72,
+                'title' => 'obejctives_group_create',
+            ],
+            [
+                'id'    => 73,
+                'title' => 'obejctives_group_edit',
+            ],
+            [
+                'id'    => 74,
+                'title' => 'obejctives_group_show',
+            ],
+            [
+                'id'    => 75,
+                'title' => 'obejctives_group_delete',
+            ],
+            [
+                'id'    => 76,
+                'title' => 'obejctives_group_access',
+            ],
+            [
+                'id'    => 77,
+                'title' => 'risk_access',
+            ],
+            [
+                'id'    => 78,
+                'title' => 'control_access',
+            ],
+            [
+                'id'    => 79,
+                'title' => 'risks_controls_type_create',
+            ],
+            [
+                'id'    => 80,
+                'title' => 'risks_controls_type_edit',
+            ],
+            [
+                'id'    => 81,
+                'title' => 'risks_controls_type_show',
+            ],
+            [
+                'id'    => 82,
+                'title' => 'risks_controls_type_delete',
+            ],
+            [
+                'id'    => 83,
+                'title' => 'risks_controls_type_access',
+            ],
+            [
+                'id'    => 84,
+                'title' => 'risks_controls_frecuency_create',
+            ],
+            [
+                'id'    => 85,
+                'title' => 'risks_controls_frecuency_edit',
+            ],
+            [
+                'id'    => 86,
+                'title' => 'risks_controls_frecuency_show',
+            ],
+            [
+                'id'    => 87,
+                'title' => 'risks_controls_frecuency_delete',
+            ],
+            [
+                'id'    => 88,
+                'title' => 'risks_controls_frecuency_access',
+            ],
+            [
+                'id'    => 89,
+                'title' => 'risks_controls_method_create',
+            ],
+            [
+                'id'    => 90,
+                'title' => 'risks_controls_method_edit',
+            ],
+            [
+                'id'    => 91,
+                'title' => 'risks_controls_method_show',
+            ],
+            [
+                'id'    => 92,
+                'title' => 'risks_controls_method_delete',
+            ],
+            [
+                'id'    => 93,
+                'title' => 'risks_controls_method_access',
+            ],
         ];
 
         Permission::insert($permissions);
