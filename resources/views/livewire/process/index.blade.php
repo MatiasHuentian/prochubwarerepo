@@ -47,11 +47,36 @@
                             @include('components.table.sort', ['field' => 'id'])
                         </th>
                         <th>
-                            {{ trans('cruds.process.fields.objective') }}
-                            @include('components.table.sort', ['field' => 'objective'])
+                            {{ trans('cruds.process.fields.name') }}
+                            @include('components.table.sort', ['field' => 'name'])
                         </th>
                         <th>
-                            {{ trans('cruds.process.fields.glosary') }}
+                            {{ trans('cruds.process.fields.owner') }}
+                            @include('components.table.sort', ['field' => 'owner.name'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.email') }}
+                            @include('components.table.sort', ['field' => 'owner.email'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.process.fields.dependency') }}
+                            @include('components.table.sort', ['field' => 'dependency.name'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.process.fields.state') }}
+                            @include('components.table.sort', ['field' => 'state.name'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.processesState.fields.color') }}
+                            @include('components.table.sort', ['field' => 'state.color'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.process.fields.start_date') }}
+                            @include('components.table.sort', ['field' => 'start_date'])
+                        </th>
+                        <th>
+                            {{ trans('cruds.process.fields.end_date') }}
+                            @include('components.table.sort', ['field' => 'end_date'])
                         </th>
                         <th>
                         </th>
@@ -67,12 +92,42 @@
                                 {{ $process->id }}
                             </td>
                             <td>
-                                {{ $process->objective }}
+                                {{ $process->name }}
                             </td>
                             <td>
-                                @foreach($process->glosary as $key => $entry)
-                                    <span class="badge badge-relationship">{{ $entry->term }}</span>
-                                @endforeach
+                                @if($process->owner)
+                                    <span class="badge badge-relationship">{{ $process->owner->name ?? '' }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($process->owner)
+                                    <a class="link-light-blue" href="mailto:{{ $process->owner->email ?? '' }}">
+                                        <i class="far fa-envelope fa-fw">
+                                        </i>
+                                        {{ $process->owner->email ?? '' }}
+                                    </a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($process->dependency)
+                                    <span class="badge badge-relationship">{{ $process->dependency->name ?? '' }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($process->state)
+                                    <span class="badge badge-relationship">{{ $process->state->name ?? '' }}</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($process->state)
+                                    {{ $process->state->color ?? '' }}
+                                @endif
+                            </td>
+                            <td>
+                                {{ $process->start_date }}
+                            </td>
+                            <td>
+                                {{ $process->end_date }}
                             </td>
                             <td>
                                 <div class="flex justify-end">

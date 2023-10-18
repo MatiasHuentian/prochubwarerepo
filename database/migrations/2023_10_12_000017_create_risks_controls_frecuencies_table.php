@@ -4,13 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProcessesTable extends Migration
+class CreateRisksControlsFrecuenciesTable extends Migration
 {
     public function up()
     {
-        Schema::create('processes', function (Blueprint $table) {
+        Schema::create('risks_controls_frecuencies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('objective')->nullable();
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });

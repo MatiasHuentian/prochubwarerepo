@@ -172,7 +172,7 @@
                 @endcan
                 @can('processes_manual_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/inputs*")||request()->is("admin/glossaries*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("admin/inputs*")||request()->is("admin/glossaries*")||request()->is("admin/outputs*")||request()->is("admin/obejctives-groups*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-book-open">
                             </i>
                             {{ trans('cruds.processesManual.title') }}
@@ -190,9 +190,27 @@
                             @can('glossary_access')
                                 <li class="items-center">
                                     <a class="{{ request()->is("admin/glossaries*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.glossaries.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-book">
                                         </i>
                                         {{ trans('cruds.glossary.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('output_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/outputs*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.outputs.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon far fa-paper-plane">
+                                        </i>
+                                        {{ trans('cruds.output.title') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('obejctives_group_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/obejctives-groups*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.obejctives-groups.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-users">
+                                        </i>
+                                        {{ trans('cruds.obejctivesGroup.title') }}
                                     </a>
                                 </li>
                             @endcan
@@ -201,12 +219,21 @@
                 @endcan
                 @can('process_menu_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/processes-states*")||request()->is("admin/processes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("admin/processes*")||request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-cogs">
                             </i>
                             {{ trans('cruds.processMenu.title') }}
                         </a>
                         <ul class="ml-4 subnav hidden">
+                            @can('process_access')
+                                <li class="items-center">
+                                    <a class="{{ request()->is("admin/processes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                        </i>
+                                        {{ trans('cruds.process.title') }}
+                                    </a>
+                                </li>
+                            @endcan
                             @can('processes_state_access')
                                 <li class="items-center">
                                     <a class="{{ request()->is("admin/processes-states*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes-states.index") }}">
@@ -216,13 +243,53 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('process_access')
+                        </ul>
+                    </li>
+                @endcan
+                @can('risk_access')
+                    <li class="items-center">
+                        <a class="has-sub {{ request()->is("admin/risks-controls-types*")||request()->is("admin/risks-controls-frecuencies*")||request()->is("admin/risks-controls-methods*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-exclamation-triangle">
+                            </i>
+                            {{ trans('cruds.risk.title') }}
+                        </a>
+                        <ul class="ml-4 subnav hidden">
+                            @can('control_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/processes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.processes.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                    <a class="has-sub {{ request()->is("admin/risks-controls-types*")||request()->is("admin/risks-controls-frecuencies*")||request()->is("admin/risks-controls-methods*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                                        <i class="fa-fw fas c-sidebar-nav-icon fa-shield-alt">
                                         </i>
-                                        {{ trans('cruds.process.title') }}
+                                        {{ trans('cruds.control.title') }}
                                     </a>
+                                    <ul class="ml-4 subnav hidden">
+                                        @can('risks_controls_type_access')
+                                            <li class="items-center">
+                                                <a class="{{ request()->is("admin/risks-controls-types*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.risks-controls-types.index") }}">
+                                                    <i class="fa-fw c-sidebar-nav-icon fas fa-list">
+                                                    </i>
+                                                    {{ trans('cruds.risksControlsType.title') }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('risks_controls_frecuency_access')
+                                            <li class="items-center">
+                                                <a class="{{ request()->is("admin/risks-controls-frecuencies*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.risks-controls-frecuencies.index") }}">
+                                                    <i class="fa-fw c-sidebar-nav-icon far fa-calendar-alt">
+                                                    </i>
+                                                    {{ trans('cruds.risksControlsFrecuency.title') }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can('risks_controls_method_access')
+                                            <li class="items-center">
+                                                <a class="{{ request()->is("admin/risks-controls-methods*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.risks-controls-methods.index") }}">
+                                                    <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                                                    </i>
+                                                    {{ trans('cruds.risksControlsMethod.title') }}
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    </ul>
                                 </li>
                             @endcan
                         </ul>

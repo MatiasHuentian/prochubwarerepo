@@ -2,23 +2,38 @@
 
 namespace App\Http\Livewire\Process;
 
+use App\Models\Dependency;
 use App\Models\Glossary;
+use App\Models\Input;
+use App\Models\ObejctivesGroup;
+use App\Models\Output;
 use App\Models\Process;
-use Illuminate\Support\Collection;
+use App\Models\ProcessesState;
+use App\Models\User;
 use Livewire\Component;
 
 class Edit extends Component
 {
     public Process $process;
 
-    public $selectedGlossaries = [];
-    public $allGlossaries = [];
+    public array $input = [];
+
+    public array $output = [];
+
+    public array $glosary = [];
+
+    public array $listsForFields = [];
+
+    public array $objective_group = [];
 
     public function mount(Process $process)
     {
-        $this->process = $process->load('glossaries');
-        $this->allGlossaries = Glossary::all();
-        $this->mapGlossary();
+        $this->process         = $process;
+        $this->glosary         = $this->process->glosary()->pluck('id')->toArray();
+        $this->input           = $this->process->input()->pluck('id')->toArray();
+        $this->output          = $this->process->output()->pluck('id')->toArray();
+        $this->objective_group = $this->process->objectiveGroup()->pluck('id')->toArray();
+        $this->initListsForFields();
     }
 
     public function render()
@@ -31,51 +46,95 @@ class Edit extends Component
         $this->validate();
 
         $this->process->save();
-        $this->process->glosary()->sync( $this->selectedGlossaries);
+        $this->process->glosary()->sync($this->glosary);
+        $this->process->input()->sync($this->input);
+        $this->process->output()->sync($this->output);
+        $this->process->objectiveGroup()->sync($this->objective_group);
 
         return redirect()->route('admin.processes.index');
-    }
-
-    public function addGlossary()
-    {
-        $this->selectedGlossaries[] = ['glossary_id' => '', 'description' => ""];
-    }
-
-    public function removeGlossary($index)
-    {
-        unset($this->selectedGlossaries[$index]);
-        $this->selectedGlossaries = array_values($this->selectedGlossaries);
     }
 
     protected function rules(): array
     {
         return [
+            'process.name' => [
+                'string',
+                'required',
+            ],
+            'process.owner_id' => [
+                'integer',
+                'exists:users,id',
+                'nullable',
+            ],
             'process.objective' => [
                 'string',
                 'nullable',
             ],
-            'selectedGlossaries' => [
+            'process.dependency_id' => [
+                'integer',
+                'exists:dependencies,id',
+                'required',
+            ],
+            'process.state_id' => [
+                'integer',
+                'exists:processes_states,id',
+                'required',
+            ],
+            'process.introduction' => [
+                'string',
+                'nullable',
+            ],
+            'process.contextual_memo' => [
+                'string',
+                'nullable',
+            ],
+            'process.start_date' => [
+                'nullable',
+                'date_format:' . config('project.date_format'),
+            ],
+            'process.end_date' => [
+                'nullable',
+                'date_format:' . config('project.date_format'),
+            ],
+            'glosary' => [
                 'array',
             ],
-            'selectedGlossaries.*.glossary_id' => [
+            'glosary.*.id' => [
                 'integer',
-                'exists:glossaries,id'
+                'exists:glossaries,id',
             ],
-            'selectedGlossaries.*.description' => [
-                'string'
+            'input' => [
+                'array',
+            ],
+            'input.*.id' => [
+                'integer',
+                'exists:inputs,id',
+            ],
+            'output' => [
+                'array',
+            ],
+            'output.*.id' => [
+                'integer',
+                'exists:outputs,id',
+            ],
+            'objective_group' => [
+                'array',
+            ],
+            'objective_group.*.id' => [
+                'integer',
+                'exists:obejctives_groups,id',
             ],
         ];
     }
 
-    public function mapGlossary()
+    protected function initListsForFields(): void
     {
-        $this->selectedGlossaries = $this->process->glossaries->map(function ($item) {
-            return [
-                'glossary_id' => $item->pivot->glossary_id,
-                // 'term' => $item->term,
-                'description' => $item->pivot->description,
-            ];
-        });
+        $this->listsForFields['owner']           = User::pluck('name', 'id')->toArray();
+        $this->listsForFields['dependency']      = Dependency::pluck('name', 'id')->toArray();
+        $this->listsForFields['state']           = ProcessesState::pluck('name', 'id')->toArray();
+        $this->listsForFields['glosary']         = Glossary::pluck('term', 'id')->toArray();
+        $this->listsForFields['input']           = Input::pluck('name', 'id')->toArray();
+        $this->listsForFields['output']          = Output::pluck('name', 'id')->toArray();
+        $this->listsForFields['objective_group'] = ObejctivesGroup::pluck('name', 'id')->toArray();
     }
-
 }
