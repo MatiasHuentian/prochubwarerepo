@@ -90,16 +90,10 @@
             {{ trans('cruds.process.fields.end_date_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('glosary') ? 'invalid' : '' }}">
-        <label class="form-label" for="glosary">{{ trans('cruds.process.fields.glosary') }}</label>
-        <x-select-list class="form-control" id="glosary" name="glosary" wire:model="glosary" :options="$this->listsForFields['glosary']" multiple />
-        <div class="validation-message">
-            {{ $errors->first('glosary') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.process.fields.glosary_helper') }}
-        </div>
-    </div>
+
+
+    @include('livewire.process.partials.glosary')
+
     <div class="form-group {{ $errors->has('input') ? 'invalid' : '' }}">
         <label class="form-label" for="input">{{ trans('cruds.process.fields.input') }}</label>
         <x-select-list class="form-control" id="input" name="input" wire:model="input" :options="$this->listsForFields['input']" multiple />

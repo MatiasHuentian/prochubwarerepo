@@ -34,13 +34,6 @@ class RisksControlsMethodController extends Controller
         return view('admin.risks-controls-method.edit', compact('risksControlsMethod'));
     }
 
-    public function show(RisksControlsMethod $risksControlsMethod)
-    {
-        abort_if(Gate::denies('risks_controls_method_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.risks-controls-method.show', compact('risksControlsMethod'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = RisksControlsMethod::class;

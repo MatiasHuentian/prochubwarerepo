@@ -34,13 +34,6 @@ class AttachmentsTypeController extends Controller
         return view('admin.attachments-type.edit', compact('attachmentsType'));
     }
 
-    public function show(AttachmentsType $attachmentsType)
-    {
-        abort_if(Gate::denies('attachments_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.attachments-type.show', compact('attachmentsType'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = AttachmentsType::class;

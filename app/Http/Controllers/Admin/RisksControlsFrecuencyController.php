@@ -34,13 +34,6 @@ class RisksControlsFrecuencyController extends Controller
         return view('admin.risks-controls-frecuency.edit', compact('risksControlsFrecuency'));
     }
 
-    public function show(RisksControlsFrecuency $risksControlsFrecuency)
-    {
-        abort_if(Gate::denies('risks_controls_frecuency_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.risks-controls-frecuency.show', compact('risksControlsFrecuency'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = RisksControlsFrecuency::class;

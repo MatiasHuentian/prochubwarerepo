@@ -34,13 +34,6 @@ class RisksControlsTypeController extends Controller
         return view('admin.risks-controls-type.edit', compact('risksControlsType'));
     }
 
-    public function show(RisksControlsType $risksControlsType)
-    {
-        abort_if(Gate::denies('risks_controls_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.risks-controls-type.show', compact('risksControlsType'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = RisksControlsType::class;

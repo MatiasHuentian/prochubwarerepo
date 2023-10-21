@@ -34,13 +34,6 @@ class OutputController extends Controller
         return view('admin.output.edit', compact('output'));
     }
 
-    public function show(Output $output)
-    {
-        abort_if(Gate::denies('output_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.output.show', compact('output'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = Output::class;

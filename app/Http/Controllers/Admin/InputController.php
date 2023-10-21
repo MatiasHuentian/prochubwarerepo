@@ -34,13 +34,6 @@ class InputController extends Controller
         return view('admin.input.edit', compact('input'));
     }
 
-    public function show(Input $input)
-    {
-        abort_if(Gate::denies('input_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.input.show', compact('input'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = Input::class;

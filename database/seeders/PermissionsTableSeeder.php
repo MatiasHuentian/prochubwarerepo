@@ -152,235 +152,403 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 36,
-                'title' => 'activity_access',
-            ],
-            [
-                'id'    => 37,
                 'title' => 'audit_log_show',
             ],
             [
-                'id'    => 38,
+                'id'    => 37,
                 'title' => 'audit_log_access',
             ],
             [
-                'id'    => 39,
+                'id'    => 38,
                 'title' => 'attachmentsfile_access',
             ],
             [
-                'id'    => 40,
+                'id'    => 39,
                 'title' => 'attachments_type_create',
             ],
             [
-                'id'    => 41,
+                'id'    => 40,
                 'title' => 'attachments_type_edit',
             ],
             [
-                'id'    => 42,
-                'title' => 'attachments_type_show',
-            ],
-            [
-                'id'    => 43,
+                'id'    => 41,
                 'title' => 'attachments_type_delete',
             ],
             [
-                'id'    => 44,
+                'id'    => 42,
                 'title' => 'attachments_type_access',
             ],
             [
-                'id'    => 45,
+                'id'    => 43,
                 'title' => 'attachments_category_create',
             ],
             [
-                'id'    => 46,
+                'id'    => 44,
                 'title' => 'attachments_category_edit',
             ],
             [
-                'id'    => 47,
-                'title' => 'attachments_category_show',
-            ],
-            [
-                'id'    => 48,
+                'id'    => 45,
                 'title' => 'attachments_category_delete',
             ],
             [
-                'id'    => 49,
+                'id'    => 46,
                 'title' => 'attachments_category_access',
             ],
             [
-                'id'    => 50,
+                'id'    => 47,
                 'title' => 'processes_manual_access',
             ],
             [
-                'id'    => 51,
+                'id'    => 48,
                 'title' => 'input_create',
             ],
             [
-                'id'    => 52,
+                'id'    => 49,
                 'title' => 'input_edit',
             ],
             [
-                'id'    => 53,
-                'title' => 'input_show',
-            ],
-            [
-                'id'    => 54,
+                'id'    => 50,
                 'title' => 'input_delete',
             ],
             [
-                'id'    => 55,
+                'id'    => 51,
                 'title' => 'input_access',
             ],
             [
-                'id'    => 56,
+                'id'    => 52,
                 'title' => 'glossary_create',
             ],
             [
-                'id'    => 57,
+                'id'    => 53,
                 'title' => 'glossary_edit',
             ],
             [
-                'id'    => 58,
-                'title' => 'glossary_show',
-            ],
-            [
-                'id'    => 59,
+                'id'    => 54,
                 'title' => 'glossary_delete',
             ],
             [
-                'id'    => 60,
+                'id'    => 55,
                 'title' => 'glossary_access',
             ],
             [
-                'id'    => 61,
+                'id'    => 56,
                 'title' => 'process_create',
             ],
             [
-                'id'    => 62,
+                'id'    => 57,
                 'title' => 'process_edit',
             ],
             [
-                'id'    => 63,
+                'id'    => 58,
                 'title' => 'process_show',
             ],
             [
-                'id'    => 64,
+                'id'    => 59,
                 'title' => 'process_delete',
             ],
             [
-                'id'    => 65,
+                'id'    => 60,
                 'title' => 'process_access',
             ],
             [
-                'id'    => 66,
+                'id'    => 61,
                 'title' => 'process_menu_access',
             ],
             [
-                'id'    => 67,
+                'id'    => 62,
                 'title' => 'output_create',
             ],
             [
-                'id'    => 68,
+                'id'    => 63,
                 'title' => 'output_edit',
             ],
             [
-                'id'    => 69,
-                'title' => 'output_show',
-            ],
-            [
-                'id'    => 70,
+                'id'    => 64,
                 'title' => 'output_delete',
             ],
             [
-                'id'    => 71,
+                'id'    => 65,
                 'title' => 'output_access',
             ],
             [
-                'id'    => 72,
+                'id'    => 66,
                 'title' => 'obejctives_group_create',
             ],
             [
-                'id'    => 73,
+                'id'    => 67,
                 'title' => 'obejctives_group_edit',
             ],
             [
-                'id'    => 74,
-                'title' => 'obejctives_group_show',
-            ],
-            [
-                'id'    => 75,
+                'id'    => 68,
                 'title' => 'obejctives_group_delete',
             ],
             [
-                'id'    => 76,
+                'id'    => 69,
                 'title' => 'obejctives_group_access',
             ],
             [
-                'id'    => 77,
+                'id'    => 70,
                 'title' => 'risk_access',
             ],
             [
-                'id'    => 78,
+                'id'    => 71,
                 'title' => 'control_access',
             ],
             [
-                'id'    => 79,
+                'id'    => 72,
                 'title' => 'risks_controls_type_create',
             ],
             [
-                'id'    => 80,
+                'id'    => 73,
                 'title' => 'risks_controls_type_edit',
             ],
             [
-                'id'    => 81,
-                'title' => 'risks_controls_type_show',
-            ],
-            [
-                'id'    => 82,
+                'id'    => 74,
                 'title' => 'risks_controls_type_delete',
             ],
             [
-                'id'    => 83,
+                'id'    => 75,
                 'title' => 'risks_controls_type_access',
             ],
             [
-                'id'    => 84,
+                'id'    => 76,
                 'title' => 'risks_controls_frecuency_create',
             ],
             [
-                'id'    => 85,
+                'id'    => 77,
                 'title' => 'risks_controls_frecuency_edit',
             ],
             [
-                'id'    => 86,
-                'title' => 'risks_controls_frecuency_show',
-            ],
-            [
-                'id'    => 87,
+                'id'    => 78,
                 'title' => 'risks_controls_frecuency_delete',
             ],
             [
-                'id'    => 88,
+                'id'    => 79,
                 'title' => 'risks_controls_frecuency_access',
             ],
             [
-                'id'    => 89,
+                'id'    => 80,
                 'title' => 'risks_controls_method_create',
             ],
             [
-                'id'    => 90,
+                'id'    => 81,
                 'title' => 'risks_controls_method_edit',
             ],
             [
-                'id'    => 91,
-                'title' => 'risks_controls_method_show',
-            ],
-            [
-                'id'    => 92,
+                'id'    => 82,
                 'title' => 'risks_controls_method_delete',
             ],
             [
-                'id'    => 93,
+                'id'    => 83,
                 'title' => 'risks_controls_method_access',
+            ],
+            [
+                'id'    => 84,
+                'title' => 'processes_upgrade_proposal_create',
+            ],
+            [
+                'id'    => 85,
+                'title' => 'processes_upgrade_proposal_edit',
+            ],
+            [
+                'id'    => 86,
+                'title' => 'processes_upgrade_proposal_show',
+            ],
+            [
+                'id'    => 87,
+                'title' => 'processes_upgrade_proposal_delete',
+            ],
+            [
+                'id'    => 88,
+                'title' => 'processes_upgrade_proposal_access',
+            ],
+            [
+                'id'    => 89,
+                'title' => 'attachment_create',
+            ],
+            [
+                'id'    => 90,
+                'title' => 'attachment_edit',
+            ],
+            [
+                'id'    => 91,
+                'title' => 'attachment_show',
+            ],
+            [
+                'id'    => 92,
+                'title' => 'attachment_delete',
+            ],
+            [
+                'id'    => 93,
+                'title' => 'attachment_access',
+            ],
+            [
+                'id'    => 94,
+                'title' => 'processes_activity_create',
+            ],
+            [
+                'id'    => 95,
+                'title' => 'processes_activity_edit',
+            ],
+            [
+                'id'    => 96,
+                'title' => 'processes_activity_show',
+            ],
+            [
+                'id'    => 97,
+                'title' => 'processes_activity_delete',
+            ],
+            [
+                'id'    => 98,
+                'title' => 'processes_activity_access',
+            ],
+            [
+                'id'    => 99,
+                'title' => 'activities_risk_create',
+            ],
+            [
+                'id'    => 100,
+                'title' => 'activities_risk_edit',
+            ],
+            [
+                'id'    => 101,
+                'title' => 'activities_risk_show',
+            ],
+            [
+                'id'    => 102,
+                'title' => 'activities_risk_delete',
+            ],
+            [
+                'id'    => 103,
+                'title' => 'activities_risk_access',
+            ],
+            [
+                'id'    => 104,
+                'title' => 'activities_risks_politic_create',
+            ],
+            [
+                'id'    => 105,
+                'title' => 'activities_risks_politic_edit',
+            ],
+            [
+                'id'    => 106,
+                'title' => 'activities_risks_politic_delete',
+            ],
+            [
+                'id'    => 107,
+                'title' => 'activities_risks_politic_access',
+            ],
+            [
+                'id'    => 108,
+                'title' => 'activities_risks_probability_create',
+            ],
+            [
+                'id'    => 109,
+                'title' => 'activities_risks_probability_edit',
+            ],
+            [
+                'id'    => 110,
+                'title' => 'activities_risks_probability_delete',
+            ],
+            [
+                'id'    => 111,
+                'title' => 'activities_risks_probability_access',
+            ],
+            [
+                'id'    => 112,
+                'title' => 'activities_risks_impact_create',
+            ],
+            [
+                'id'    => 113,
+                'title' => 'activities_risks_impact_edit',
+            ],
+            [
+                'id'    => 114,
+                'title' => 'activities_risks_impact_delete',
+            ],
+            [
+                'id'    => 115,
+                'title' => 'activities_risks_impact_access',
+            ],
+            [
+                'id'    => 116,
+                'title' => 'activities_risks_cause_create',
+            ],
+            [
+                'id'    => 117,
+                'title' => 'activities_risks_cause_edit',
+            ],
+            [
+                'id'    => 118,
+                'title' => 'activities_risks_cause_show',
+            ],
+            [
+                'id'    => 119,
+                'title' => 'activities_risks_cause_delete',
+            ],
+            [
+                'id'    => 120,
+                'title' => 'activities_risks_cause_access',
+            ],
+            [
+                'id'    => 121,
+                'title' => 'activities_risks_consequence_create',
+            ],
+            [
+                'id'    => 122,
+                'title' => 'activities_risks_consequence_edit',
+            ],
+            [
+                'id'    => 123,
+                'title' => 'activities_risks_consequence_show',
+            ],
+            [
+                'id'    => 124,
+                'title' => 'activities_risks_consequence_delete',
+            ],
+            [
+                'id'    => 125,
+                'title' => 'activities_risks_consequence_access',
+            ],
+            [
+                'id'    => 126,
+                'title' => 'risks_control_create',
+            ],
+            [
+                'id'    => 127,
+                'title' => 'risks_control_edit',
+            ],
+            [
+                'id'    => 128,
+                'title' => 'risks_control_show',
+            ],
+            [
+                'id'    => 129,
+                'title' => 'risks_control_delete',
+            ],
+            [
+                'id'    => 130,
+                'title' => 'risks_control_access',
+            ],
+            [
+                'id'    => 131,
+                'title' => 'processes_kpi_create',
+            ],
+            [
+                'id'    => 132,
+                'title' => 'processes_kpi_edit',
+            ],
+            [
+                'id'    => 133,
+                'title' => 'processes_kpi_show',
+            ],
+            [
+                'id'    => 134,
+                'title' => 'processes_kpi_delete',
+            ],
+            [
+                'id'    => 135,
+                'title' => 'processes_kpi_access',
             ],
         ];
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\HasAdvancedFilter;
+use App\Traits\Auditable;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Glossary extends Model
 {
-    use HasFactory, HasAdvancedFilter, SoftDeletes;
+    use HasFactory, HasAdvancedFilter, SoftDeletes, Auditable;
 
     public $table = 'glossaries';
 
@@ -57,5 +58,10 @@ class Glossary extends Model
     public function getDeletedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
+    }
+
+    public function processes()
+    {
+        return $this->belongsToMany(Process::class, 'glossary_process', 'glossary_id', 'process_id')->withPivot('description');
     }
 }

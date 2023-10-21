@@ -10,6 +10,7 @@ use App\Models\Output;
 use App\Models\Process;
 use App\Models\ProcessesState;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Create extends Component
@@ -22,9 +23,41 @@ class Create extends Component
 
     public array $glosary = [];
 
+    public array $glossaries = [];
+
     public array $listsForFields = [];
 
     public array $objective_group = [];
+
+    public function miFuncion()
+    {
+        // Filtrar $glossaries
+        $glossaries = array_filter($this->glossaries, function ($glossary) {
+            return in_array($glossary['id'], $this->glosary);
+        });
+
+        // Crear elementos faltantes
+        $existingIds = array_column($this->glossaries, 'id');
+        $missingIds = array_diff($this->glosary, $existingIds);
+
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['glosary'][$missingId] ?? false) {
+                $name = $this->listsForFields['glosary'][$missingId];
+            }else{
+                array_push( $this->listsForFields['glosary'] ,  $missingId );
+                $name = $missingId;
+                $missingId=  $missingId;
+            }
+
+            $glossaries[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+            ];
+        }
+
+        $this->glossaries = $glossaries;
+    }
 
     public function mount(Process $process)
     {
@@ -128,7 +161,8 @@ class Create extends Component
         $this->listsForFields['owner']           = User::pluck('name', 'id')->toArray();
         $this->listsForFields['dependency']      = Dependency::pluck('name', 'id')->toArray();
         $this->listsForFields['state']           = ProcessesState::pluck('name', 'id')->toArray();
-        $this->listsForFields['glosary']         = Glossary::pluck('term', 'id')->toArray();
+        $this->listsForFields['glosaries']       = Glossary::with('processes')->get();
+        $this->listsForFields['glosary']         = $this->listsForFields['glosaries']->pluck('term' , 'id')->toArray();
         $this->listsForFields['input']           = Input::pluck('name', 'id')->toArray();
         $this->listsForFields['output']          = Output::pluck('name', 'id')->toArray();
         $this->listsForFields['objective_group'] = ObejctivesGroup::pluck('name', 'id')->toArray();

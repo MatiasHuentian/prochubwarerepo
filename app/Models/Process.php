@@ -106,7 +106,7 @@ class Process extends Model
 
     public function glosary()
     {
-        return $this->belongsToMany(Glossary::class);
+        return $this->belongsToMany(Glossary::class)->withPivot('description');
     }
 
     public function input()

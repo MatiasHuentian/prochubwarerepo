@@ -34,13 +34,6 @@ class ObejctivesGroupController extends Controller
         return view('admin.obejctives-group.edit', compact('obejctivesGroup'));
     }
 
-    public function show(ObejctivesGroup $obejctivesGroup)
-    {
-        abort_if(Gate::denies('obejctives_group_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.obejctives-group.show', compact('obejctivesGroup'));
-    }
-
     public function __construct()
     {
         $this->csvImportModel = ObejctivesGroup::class;
