@@ -19,39 +19,18 @@
                         {{ $glosary['name'] ?? 'name' }}
                     </label>
                     <div class="block w-1/2">
-                        <x-select-list class="form-control" id="input" name="input" wire:model="input" :options="$this->listsForFields['input']" style="height: 2rem; padding-top: 0.3rem; padding-bottom: 0.3rem;" />
-                        {{-- <x-select-list class="form-control" id="aa" name="vv" :options="$this->listsForFields['glosary']"  style="height: 2rem; padding-top: 0.3rem; padding-bottom: 0.3rem;" /> --}}
+                        <x-select-list class="form-control" id="glossaries-{{ $i }}-descriptions"
+                            name="glossaries.{{ $i }}.descriptions"
+                            wire:model="selectedDescriptions.{{ $i }}"
+                            :options="$glosary['descriptions']"
+                            style="height: 2rem; padding-top: 0.3rem; padding-bottom: 0.3rem;" />
                     </div>
                 </div>
                 <textarea
                     class=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
-                    name="description_{{ $i }}" id="description_{{ $i }}"
+                    name="description_{{ $i }}" id="description-{{ $i }}"
                     wire:model.defer="glossaries.{{ $i }}.description" rows="4"></textarea>
             </div>
         </div>
     @endforeach
 </div>
-
-<hr>
-<hr>
-<hr>
-{{-- <div class="flex flex-wrap -mx-3 mb-6">
-    <div class="w-full px-3">
-        <div class="flex flex-row items-center mb-2">
-            <label class="block w-1/2 text-gray-700 text-xs font-bold" for="grid-password">
-                LABEL!
-            </label>
-            <label class="block w-1/2 text-right text-gray-700 text-xs font-bold" for="grid-password">
-                LABEL 2
-            </label>
-        </div>
-        <textarea
-            class="no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
-            name="description_123123" id="description_123123" wire:model.defer="glossaries.123123.description" rows="4"></textarea>
-    </div>
-</div> --}}
-
-
-<hr>
-<hr>
-<hr>

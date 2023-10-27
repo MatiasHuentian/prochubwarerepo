@@ -24,10 +24,16 @@ class Create extends Component
     public array $glosary = [];
 
     public array $glossaries = [];
+    public array $selectedDescriptions = [];
 
     public array $listsForFields = [];
 
     public array $objective_group = [];
+
+    public function updatedSelectedDescriptions($value, $index)
+    {
+        $this->glossaries[$index]['description'] = $value;
+    }
 
     public function miFuncion()
     {
@@ -39,24 +45,36 @@ class Create extends Component
         // Crear elementos faltantes
         $existingIds = array_column($this->glossaries, 'id');
         $missingIds = array_diff($this->glosary, $existingIds);
-
+        $descriptions = [];
         foreach ($missingIds as $missingId) {
             if ($this->listsForFields['glosary'][$missingId] ?? false) {
+                // En caso de que exista el id
                 $name = $this->listsForFields['glosary'][$missingId];
-            }else{
-                array_push( $this->listsForFields['glosary'] ,  $missingId );
+                $descriptions = Glossary::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['glosary'],  $missingId);
                 $name = $missingId;
-                $missingId=  $missingId;
+                $missingId =  $missingId;
             }
+
 
             $glossaries[] = [
                 'id' => $missingId,
                 'name' => $name,
                 'description' => "",
+                'descriptions' => $descriptions,
             ];
         }
 
         $this->glossaries = $glossaries;
+        $this->dispatchBrowserEvent('livewire:load');
     }
 
     public function mount(Process $process)
@@ -162,7 +180,7 @@ class Create extends Component
         $this->listsForFields['dependency']      = Dependency::pluck('name', 'id')->toArray();
         $this->listsForFields['state']           = ProcessesState::pluck('name', 'id')->toArray();
         $this->listsForFields['glosaries']       = Glossary::with('processes')->get();
-        $this->listsForFields['glosary']         = $this->listsForFields['glosaries']->pluck('term' , 'id')->toArray();
+        $this->listsForFields['glosary']         = $this->listsForFields['glosaries']->pluck('term', 'id')->toArray();
         $this->listsForFields['input']           = Input::pluck('name', 'id')->toArray();
         $this->listsForFields['output']          = Output::pluck('name', 'id')->toArray();
         $this->listsForFields['objective_group'] = ObejctivesGroup::pluck('name', 'id')->toArray();
