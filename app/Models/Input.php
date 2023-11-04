@@ -59,4 +59,10 @@ class Input extends Model
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
+
+    public function processes()
+    {
+        return $this->belongsToMany(Process::class, 'input_process', 'input_id', 'process_id')->withPivot('description');
+    }
+
 }

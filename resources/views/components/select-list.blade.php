@@ -21,9 +21,7 @@
 
 @push('scripts')
     <script>
-        console.log("teste del script");
         document.addEventListener("livewire:load", () => {
-            console.log("teste del load");
             let el = $('#{{ $attributes['id'] }}')
             let buttonsId = '#{{ $attributes['id'] }}-btn-container'
 

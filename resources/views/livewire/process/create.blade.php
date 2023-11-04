@@ -2,7 +2,8 @@
 
     <div class="form-group {{ $errors->has('process.name') ? 'invalid' : '' }}">
         <label class="form-label required" for="name">{{ trans('cruds.process.fields.name') }}</label>
-        <input class="form-control" type="text" name="name" id="name" required wire:model.defer="process.name">
+        <input class="form-control" type="text" name="name" id="name"
+        wire:model.defer="process.name">
         <div class="validation-message">
             {{ $errors->first('process.name') }}
         </div>
@@ -91,8 +92,8 @@
         </div>
     </div>
 
-
-    @include('livewire.process.partials.glosary')
+    {{-- @include('livewire.process.partials.glosary') --}}
+    @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'glosary' , 'plural_item' => 'glossaries' , 'items' => $this->glossaries])
 
     <div class="form-group {{ $errors->has('input') ? 'invalid' : '' }}">
         <label class="form-label" for="input">{{ trans('cruds.process.fields.input') }}</label>
@@ -104,6 +105,8 @@
             {{ trans('cruds.process.fields.input_helper') }}
         </div>
     </div>
+    {{-- @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'input' , 'plural_item' => 'inputs' , 'items' => $inputs]) --}}
+
     <div class="form-group {{ $errors->has('output') ? 'invalid' : '' }}">
         <label class="form-label" for="output">{{ trans('cruds.process.fields.output') }}</label>
         <x-select-list class="form-control" id="output" name="output" wire:model="output" :options="$this->listsForFields['output']" multiple />

@@ -1,6 +1,5 @@
 <div class="form-group {{ $errors->has('glosary') ? 'invalid' : '' }}">
     <label class="form-label" for="glosary">{{ trans('cruds.process.fields.glosary') }}</label>
-    {{-- <x-select-list class="form-control" id="glosary" name="glosary" wire:model="glosary" :options="$this->listsForFields['glosary']"  /> --}}
     <x-select-with-pivot class="form-control" id="glosary" name="glosary" wire:model="glosary" :options="$this->listsForFields['glosary']" multiple
         :changefunction="'miFuncion'" />
     <div class="validation-message">
@@ -19,7 +18,7 @@
                         {{ $glosary['name'] ?? 'name' }}
                     </label>
                     <div class="block w-1/2">
-                        <x-select-list class="form-control" id="glossaries-{{ $i }}-descriptions"
+                        <x-select-list-v2 class="form-control" id="glossaries-{{ $i }}-descriptions"
                             name="glossaries.{{ $i }}.descriptions"
                             wire:model="selectedDescriptions.{{ $i }}"
                             :options="$glosary['descriptions']"
