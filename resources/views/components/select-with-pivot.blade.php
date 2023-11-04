@@ -39,13 +39,19 @@
                     data = null
                 }
                 @this.set('{{ $attributes['wire:model'] }}', data)
-                callLivewireFunction();
+                callLivewireFunction_{{ $attributes['id'] }}();
             });
         });
+        // let change_function = "{{ $changefunction }}";
+        const change_function_{{ $attributes['id'] }} = "{{ $changefunction }}";
+        console.log("definiendo lo del select pivot");
+        console.log( change_function_{{ $attributes['id'] }} );
 
-        function callLivewireFunction() {
-            console.log( ' {{ $changefunction ?? ""  }} ' )
-            @this.call('{{ $changefunction ?? "" }}'); // Llama a la función de Livewire
+        function callLivewireFunction_{{ $attributes['id'] }}() {
+            console.log("este es el call a probar ando:");
+            console.log(change_function_{{ $attributes['id'] }});
+
+            @this.call(change_function_{{ $attributes['id'] }}); // Llama a la función de Livewire
         }
     </script>
 @endpush

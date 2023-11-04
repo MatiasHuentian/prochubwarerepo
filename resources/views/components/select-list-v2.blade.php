@@ -13,24 +13,16 @@
 
 {{-- @push('scripts') --}}
     <script>
-        document.addEventListener("livewire:load", () => {
-
+        window.addEventListener('apply_select2', event => {
             let el = $('#{{ $attributes['id'] }}')
             let buttonsId = '#{{ $attributes['id'] }}-btn-container'
-
             function initSelect() {
                 el.select2({
                     placeholder: '{{ __('Select your option') }}',
                     allowClear: !el.attr('required')
                 })
             }
-
             initSelect()
-
-            // Livewire.hook('message.processed', (message, component) => {
-            //     initSelect()
-            // });
-
             el.on('change', function(e) {
                 let data = $(this).select2("val")
                 if (data === "") {

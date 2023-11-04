@@ -18,6 +18,7 @@ class Create extends Component
     public Process $process;
 
     public array $input = [];
+    public array $inputs = [];
 
     public array $output = [];
 
@@ -134,7 +135,8 @@ class Create extends Component
         $this->listsForFields['glosaries']       = Glossary::with('processes')->get();
         $this->listsForFields['glosary']         = $this->listsForFields['glosaries']->pluck('term', 'id')->toArray();
 
-        $this->listsForFields['input']           = Input::pluck('name', 'id')->toArray();
+        $this->listsForFields['inputs']           = Input::with('processes')->get();
+        $this->listsForFields['input']           = $this->listsForFields['inputs']->pluck('name', 'id')->toArray();
         $this->listsForFields['output']          = Output::pluck('name', 'id')->toArray();
         $this->listsForFields['objective_group'] = ObejctivesGroup::pluck('name', 'id')->toArray();
     }
@@ -177,40 +179,47 @@ class Create extends Component
         }
 
         $this->glossaries = $glossaries;
-        $this->dispatchBrowserEvent('livewire:load');
+        $this->dispatchBrowserEvent('apply_select2');
     }
 
-    // public function select_glosary()
-    // {
+    public function select_input()
+    {
+        // Filtrar $inputs
+        $inputs = array_filter($this->inputs, function ($input) {
+            return in_array($input['id'], $this->input);
+        });
 
-    //     $existingIds = array_column($this->glossaries, 'id');
-    //     $missingIds = array_diff($this->glosary, $existingIds); // Solo se obtienen los Id's que no estén actualmente
+        // Crear elementos faltantes
+        $existingIds = array_column($this->inputs, 'id');
+        $missingIds = array_diff($this->input, $existingIds);
+        $descriptions = [];
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['input'][$missingId] ?? false) {
+                // En caso de que exista el id
+                $name = $this->listsForFields['input'][$missingId];
+                $descriptions = input::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['input'],  $missingId);
+                $name = $missingId;
+                $missingId =  $missingId;
+            }
 
-    //     $glossaries = []; // Inicializa el array $glossaries
+            $inputs[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+                'descriptions' => $descriptions,
+            ];
+        }
 
-    //     foreach ($missingIds as $missingId) { // Los id's que no estén definidos se crean por primera vez aquí
-    //         $glossaryData = [
-    //             'id' => $missingId,
-    //             'name' => $this->listsForFields['glosary'][$missingId] ?? $missingId,
-    //             'description' => '',
-    //             'descriptions' => [],
-    //         ];
-
-    //         if ($this->listsForFields['glosary'][$missingId] && !empty($missingId)) { // En caso de que sea un id ya existente en la BBDD, se puede rellenar más
-    //             $glossary = Glossary::with('processes')->find($missingId);
-    //             if ($glossary) {
-    //                 $glossaryData['descriptions'] = $glossary->processes->unique()
-    //                     ->mapWithKeys(function ($process) {
-    //                         return [$process->pivot->description => $process->pivot->description];
-    //                     })
-    //                     ->toArray();
-    //             }
-    //         }
-
-    //         $glossaries[] = $glossaryData;
-    //     }
-
-    //     $this->glossaries = array_merge($this->glossaries, $glossaries);
-    //     $this->dispatchBrowserEvent('livewire:load');
-    // }
+        $this->inputs = $inputs;
+        $this->dispatchBrowserEvent('apply_select2');
+    }
 }

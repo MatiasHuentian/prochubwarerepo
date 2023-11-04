@@ -95,7 +95,7 @@
     {{-- @include('livewire.process.partials.glosary') --}}
     @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'glosary' , 'plural_item' => 'glossaries' , 'items' => $this->glossaries])
 
-    <div class="form-group {{ $errors->has('input') ? 'invalid' : '' }}">
+    {{-- <div class="form-group {{ $errors->has('input') ? 'invalid' : '' }}">
         <label class="form-label" for="input">{{ trans('cruds.process.fields.input') }}</label>
         <x-select-list class="form-control" id="input" name="input" wire:model="input" :options="$this->listsForFields['input']" multiple />
         <div class="validation-message">
@@ -104,8 +104,8 @@
         <div class="help-block">
             {{ trans('cruds.process.fields.input_helper') }}
         </div>
-    </div>
-    {{-- @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'input' , 'plural_item' => 'inputs' , 'items' => $inputs]) --}}
+    </div> --}}
+    @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'input' , 'plural_item' => 'inputs' , 'items' => $this->inputs])
 
     <div class="form-group {{ $errors->has('output') ? 'invalid' : '' }}">
         <label class="form-label" for="output">{{ trans('cruds.process.fields.output') }}</label>

@@ -2,10 +2,11 @@
     $singular_item = $singular_item;
     $plural_item = $plural_item;
 @endphp
+{{-- El select principal donde se elige el elemento --}}
 <div class="form-group {{ $errors->has($singular_item) ? 'invalid' : '' }}">
     <label class="form-label" for="{{ $singular_item }}">{{ trans('cruds.process.fields.' . $singular_item) }}</label>
     <x-select-with-pivot class="form-control" id="{{ $singular_item }}" name="{{ $singular_item }}" wire:model="{{ $singular_item }}" :options="$this->listsForFields[$singular_item] " multiple
-        :changefunction="'select_'.$singular_item" />
+        :changefunction="'select_'.$singular_item" wire:key="{{ $singular_item }}" />
     <div class="validation-message">
         {{ $errors->first($singular_item) }}
     </div>
@@ -14,7 +15,8 @@
     </div>
 </div>
 <div class="w-full max-w-lg">
-    @foreach ($this->glossaries as $i => $item)
+    {{-- @dump( $this->$plural_item ) --}}
+    @foreach ($items as $i => $item)
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
                 <div class="flex flex-row items-center mb-2">
