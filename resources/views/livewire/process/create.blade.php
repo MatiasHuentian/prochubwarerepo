@@ -92,41 +92,18 @@
         </div>
     </div>
 
-    {{-- @include('livewire.process.partials.glosary') --}}
     @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'glosary' , 'plural_item' => 'glossaries' , 'items' => $this->glossaries])
 
-    {{-- <div class="form-group {{ $errors->has('input') ? 'invalid' : '' }}">
-        <label class="form-label" for="input">{{ trans('cruds.process.fields.input') }}</label>
-        <x-select-list class="form-control" id="input" name="input" wire:model="input" :options="$this->listsForFields['input']" multiple />
-        <div class="validation-message">
-            {{ $errors->first('input') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.process.fields.input_helper') }}
-        </div>
-    </div> --}}
     @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'input' , 'plural_item' => 'inputs' , 'items' => $this->inputs])
 
-    <div class="form-group {{ $errors->has('output') ? 'invalid' : '' }}">
-        <label class="form-label" for="output">{{ trans('cruds.process.fields.output') }}</label>
-        <x-select-list class="form-control" id="output" name="output" wire:model="output" :options="$this->listsForFields['output']" multiple />
-        <div class="validation-message">
-            {{ $errors->first('output') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.process.fields.output_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('objective_group') ? 'invalid' : '' }}">
-        <label class="form-label" for="objective_group">{{ trans('cruds.process.fields.objective_group') }}</label>
-        <x-select-list class="form-control" id="objective_group" name="objective_group" wire:model="objective_group" :options="$this->listsForFields['objective_group']" multiple />
-        <div class="validation-message">
-            {{ $errors->first('objective_group') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.process.fields.objective_group_helper') }}
-        </div>
-    </div>
+    @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'output' , 'plural_item' => 'outputs' , 'items' => $this->outputs])
+
+    @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'objective_group' , 'plural_item' => 'objectives_groups' , 'items' => $this->objectives_groups])
+
+    {{-- @include('livewire.process.partials.pivot-select' , [ 'singular_item' => 'activity' , 'plural_item' => 'activities' , 'items' => $this->activities]) --}}
+    @include('livewire.process.partials.has-many' )
+
+
 
     <div class="form-group">
         <button class="btn btn-indigo mr-2" type="submit">

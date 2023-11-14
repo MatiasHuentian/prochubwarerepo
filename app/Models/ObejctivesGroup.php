@@ -59,4 +59,9 @@ class ObejctivesGroup extends Model
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
+
+    public function processes()
+    {
+        return $this->belongsToMany(Process::class, 'obejctives_group_process', 'obejctives_group_id', 'process_id')->withPivot('description');
+    }
 }

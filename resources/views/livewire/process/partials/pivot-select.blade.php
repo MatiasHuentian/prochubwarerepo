@@ -15,7 +15,6 @@
     </div>
 </div>
 <div class="w-full max-w-lg">
-    {{-- @dump( $this->$plural_item ) --}}
     @foreach ($items as $i => $item)
         <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
@@ -27,7 +26,6 @@
                         <x-select-list-v2 class="form-control" id="{{ $plural_item }}-{{ $i }}-descriptions"
                             name="{{ $plural_item }}.{{ $i }}.descriptions"
                             wire:model="{{ $plural_item }}.{{ $i }}.description"
-                            {{-- wire:model="selected_{{ $plural_item }}_Descriptions.{{ $i }}" --}}
                             :options="$item['descriptions']"
                             style="height: 2rem; padding-top: 0.3rem; padding-bottom: 0.3rem;" />
                     </div>

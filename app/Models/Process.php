@@ -138,4 +138,10 @@ class Process extends Model
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
+
+    // Fabricated code
+    public function activities()
+    {
+        return $this->hasMany(ProcessesActivity::class, 'process_id', 'id');
+    }
 }

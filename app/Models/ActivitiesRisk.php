@@ -96,4 +96,19 @@ class ActivitiesRisk extends Model
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
+
+    public function causes()
+    {
+        return $this->hasMany(ActivitiesRisksCause::class, 'risk_id', 'id');
+    }
+
+    public function consequences()
+    {
+        return $this->hasMany(ActivitiesRisksConsequence::class, 'risk_id', 'id');
+    }
+
+    public function controls()
+    {
+        return $this->hasMany(RisksControl::class, 'risk_id', 'id');
+    }
 }
