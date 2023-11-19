@@ -1,9 +1,25 @@
+<div class="form-group {{ $errors->has(($clean_model ?? 'processesActivity') . '.description') ? 'invalid' : '' }}">
+    <label class="form-label required" for="{{ ($clean_model ?? 'processesActivity') }}_description">{{ trans('cruds.processesActivity.fields.description') }}</label>
+    <textarea class="form-control" id="{{ ($clean_model ?? 'processesActivity') }}_description" required wire:model.defer="{{ ($clean_model ?? 'processesActivity') }}.description"
+        rows="4"></textarea>
+    <div class="validation-message">
+        {{ $errors->first(($clean_model ?? 'processesActivity') . '.description') }}
+    </div>
+    <div class="help-block">
+        {{ trans('cruds.processesActivity.fields.description_helper') }}
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         {{ $name . ($plural_name ?? 's') }}
     </div>
-
     <div class="card-body">
+        @php
+            if (isset($personal_list)) {
+                $list = ${$personal_list}[$in]['risks'] ?? [];
+            }
+        @endphp
         @foreach ($list as $index => $element)
             <div class="card mt-4">
                 <div class="card-header">
@@ -12,23 +28,17 @@
                             for="{{ $list_name }}_{{ $index }}_name">{{ $name }}
                             N°{{ $index + 1 }}</label>
                         <input type="text"
-                            id="{{ $list_name }}_{{ $index }}_name"
                             class="w-full py-2 px-3 text-gray-700 border rounded focus:outline-none focus:border-blue-400 focus:ring focus:ring-blue-400"
-                            wire:model.defer="{{ $list_name }}.{{ $index }}.name"
+                            wire:model.defer="{{ $list_name }}.{{ $index }}.name" id="{{ $list_name }}_{{ $index }}_name"
                             placeholder="Ingrese nombre de la {{ $name }}" />
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-group {{ $errors->has("$list_name.$index.description") ? 'invalid' : '' }}">
-                        <label class="form-label"
-                            for="{{ $list_name }}_{{ $index }}_description">Descripción</label>
-                        <textarea class="form-control"
-                            id="{{ $list_name }}_{{ $index }}_description"
-                            wire:model.defer="{{ $list_name }}.{{ $index }}.description" rows="4"></textarea>
-                        <div class="validation-message">
-                            {{ $errors->first("$list_name.$index.description") }}
-                        </div>
-                    </div>
+                    @include('livewire.activities-risk.clean', [
+                        'clean_model' => "$list_name.$index",
+                        'personal_list' => $list_name,
+                        'index' => $index,
+                    ])
                 </div>
                 <div class="flex items-center m-2 {{ $errors->has("$list_name.$index.name") ? 'invalid' : '' }}">
                     <a href="#" class="btn btn-danger m-2"

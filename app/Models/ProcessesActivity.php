@@ -72,4 +72,9 @@ class ProcessesActivity extends Model
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
+
+    public function risks()
+    {
+        return $this->hasMany(ActivitiesRisk::class, 'activity_id', 'id');
+    }
 }

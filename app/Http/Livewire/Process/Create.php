@@ -3,15 +3,25 @@
 namespace App\Http\Livewire\Process;
 
 use App\Models\ActivitiesRisk;
-use App\Models\Dependency;
-use App\Models\Glossary;
+use App\Models\ActivitiesRisksCause;
+use App\Models\ActivitiesRisksConsequence;
+use App\Models\User;
 use App\Models\Input;
-use App\Models\ObejctivesGroup;
 use App\Models\Output;
 use App\Models\Process;
-use App\Models\ProcessesState;
-use App\Models\User;
 use Livewire\Component;
+use App\Models\Glossary;
+use App\Models\Dependency;
+use App\Models\ProcessesState;
+use App\Models\ObejctivesGroup;
+use App\Models\RisksControlsType;
+use App\Models\RisksControlsMethod;
+use App\Models\ActivitiesRisksImpact;
+use App\Models\ActivitiesRisksPolitic;
+use App\Models\RisksControlsFrecuency;
+use App\Models\ActivitiesRisksProbability;
+use App\Models\RisksControl;
+use Illuminate\Support\Arr;
 
 class Create extends Component
 {
@@ -25,39 +35,16 @@ class Create extends Component
 
     public array $glosary = [];
     public array $glossaries = [];
-    // public array $selected_glossaries_Descriptions = [];
 
     public array $objective_group = [];
     public array $objectives_groups = [];
 
     public array $activities = [];
 
-    public function addActivity()
-    {
-        $this->activities[] = ['name' => '', 'description' => "" , 'activitiesRisks' => [] ];
-    }
-
-    public function addRisk( $i  )
-    {
-        $this->activities[$i]["activitiesRisks"][] = [ 'risk' => new ActivitiesRisk() ] ;
-    }
-
-    public function removeActivity( $index )
-    {
-        unset($this->activities[$index]);
-        $this->activities = array_values($this->activities);
-    }
-
     public array $listsForFields = [];
 
     public function mount(Process $process)
     {
-        // $this->activities[] = [
-        //     'name' => "",
-        //     'description' => "",
-        //     'activitiesRisks' => new ActivitiesRisk() ,
-        // ];
-
         $this->process = $process;
         $this->initListsForFields();
     }
@@ -94,6 +81,38 @@ class Create extends Component
         $this->process->objectiveGroup()->sync(
             $this->refactor_many_to_many($this->objectives_groups)
         );
+
+        foreach ($this->activities as $activity) {
+            $activities = $this->process->activities()->create($activity);
+
+            foreach ($activity['risks'] as $risk) {
+                $activitiesRisk = $activities->risks()->create($risk);
+
+                foreach (($risk['causes'] ?? []) as $causeData) {
+                    // Evitar agregar causas vacías
+                    if (!empty($causeData['name'])) {
+                        $cause = new ActivitiesRisksCause($causeData);
+                        $activitiesRisk->causes()->save($cause);
+                    }
+                }
+
+                foreach (($risk['consequences'] ?? []) as $consequencesData) {
+                    // Evitar agregar causas vacías
+                    if (!empty($consequencesData['name'])) {
+                        $consequences = new ActivitiesRisksConsequence($consequencesData);
+                        $activitiesRisk->consequences()->save($consequences);
+                    }
+                }
+
+                foreach (($risk['controls'] ?? []) as $controlsData) {
+                    // Evitar agregar causas vacías
+                    if (!empty($controlsData['name'])) {
+                        $controls = new RisksControl($controlsData);
+                        $activitiesRisk->controls()->save($controls);
+                    }
+                }
+            }
+        }
         return redirect()->route('admin.processes.index');
     }
 
@@ -172,20 +191,27 @@ class Create extends Component
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['owner']           = User::pluck('name', 'id')->toArray();
-        $this->listsForFields['dependency']      = Dependency::pluck('name', 'id')->toArray();
-        $this->listsForFields['state']           = ProcessesState::pluck('name', 'id')->toArray();
-        $this->listsForFields['glosaries']       = Glossary::with('processes')->get();
-        $this->listsForFields['glosary']         = $this->listsForFields['glosaries']->pluck('term', 'id')->toArray();
+        $this->listsForFields['owner']              = User::pluck('name', 'id')->toArray();
+        $this->listsForFields['dependency']         = Dependency::pluck('name', 'id')->toArray();
+        $this->listsForFields['state']              = ProcessesState::pluck('name', 'id')->toArray();
+        $this->listsForFields['glosaries']          = Glossary::with('processes')->get();
+        $this->listsForFields['glosary']            = $this->listsForFields['glosaries']->pluck('term', 'id')->toArray();
 
-        $this->listsForFields['inputs']           = Input::with('processes')->get();
-        $this->listsForFields['input']            = $this->listsForFields['inputs']->pluck('name', 'id')->toArray();
+        $this->listsForFields['inputs']             = Input::with('processes')->get();
+        $this->listsForFields['input']              = $this->listsForFields['inputs']->pluck('name', 'id')->toArray();
 
-        $this->listsForFields['outputs']          = Output::with('processes')->get();
-        $this->listsForFields['output']           = $this->listsForFields['outputs']->pluck('name', 'id')->toArray();
+        $this->listsForFields['outputs']            = Output::with('processes')->get();
+        $this->listsForFields['output']             = $this->listsForFields['outputs']->pluck('name', 'id')->toArray();
 
-        $this->listsForFields['objectives_groups'] = ObejctivesGroup::with('processes')->get();
-        $this->listsForFields['objective_group']  = $this->listsForFields['objectives_groups']->pluck('name', 'id')->toArray();
+        $this->listsForFields['objectives_groups']  = ObejctivesGroup::with('processes')->get();
+        $this->listsForFields['objective_group']    = $this->listsForFields['objectives_groups']->pluck('name', 'id')->toArray();
+
+        $this->listsForFields['politic']            = ActivitiesRisksPolitic::pluck('name', 'id')->toArray();
+        $this->listsForFields['probability']        = ActivitiesRisksProbability::pluck('name', 'id')->toArray();
+        $this->listsForFields['impact']             = ActivitiesRisksImpact::pluck('name', 'id')->toArray();
+        $this->listsForFields['frecuency']          = RisksControlsFrecuency::pluck('name', 'id')->toArray();
+        $this->listsForFields['method']             = RisksControlsMethod::pluck('name', 'id')->toArray();
+        $this->listsForFields['type']               = RisksControlsType::pluck('name', 'id')->toArray();
     }
 
     public function select_glosary()
@@ -350,5 +376,94 @@ class Create extends Component
 
         $this->objectives_groups = $objectives_groups;
         $this->dispatchBrowserEvent('apply_select2');
+    }
+
+    protected function contiene_palabra(string $cadena, string $palabra): bool
+    {
+        return strpos($cadena, $palabra) !== false;
+    }
+
+    /**
+     * Convierte una notación de puntos en una representación de array en PHP.
+     *
+     * @param string $notacion La cadena en notación de puntos a convertir.
+     * @return string La cadena en notación de array resultante.
+     */
+    function dotToArray($notacion)
+    {
+        $containsDot = strpos($notacion, '.') !== false;
+        if ($containsDot) {
+            $segmentos = explode('.', $notacion);
+            $resultado = '';
+
+            foreach ($segmentos as $index => $segmento) {
+                if ($index % 2 == 0) {
+                    $resultado .= ($index > 1 ? '"]["' : '') . $segmento;
+                } else {
+                    $resultado .= ($index != 1 ? '"]["' : '["') . $segmento;
+                }
+            }
+            $resultado = $resultado . '"]'; // Terminando uniendo el array
+        } else {
+            $resultado = $notacion;
+        }
+        return $resultado;
+    }
+
+    public function add_to_model($model)
+    {
+        // Busco si contiene las palabras claves activities al mismo tiempo
+        $containsActivities = preg_match('/\bactivitiesRisk\b/', $model);
+        $containsDot = strpos($model, '.') !== false;
+
+        if (count($model_explode = explode('.', $model)) == 3 and (
+            ($containsActivities and $containsDot) || ($this->contiene_palabra($model, "activities") &&
+                $this->contiene_palabra($model, "risks"))
+        )) {
+            $model_explode = explode('.', $model);
+            $last_model =  end($model_explode);
+            $first_model =  $model_explode[0];
+            $this->{$first_model}[$model_explode[1]][$last_model][] =
+                ['name' => '', 'description' => ""]
+            ;
+        } else if ($this->contiene_palabra($model, "activities.") && $this->contiene_palabra($model, 'risks.')) {
+            $model_explode = explode('.', $model);
+            $last_model =  end($model_explode);
+            $first_model =  $model_explode[0];
+            // dd($model_explode);
+            $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model][] = [
+                ['name' => '', 'description' => ""]
+            ];
+        } else {
+            $notacionArray = $this->dotToArray($model); //$activities["0"]["risks"]["0"]["causes"]
+            $this->{$notacionArray}[] = ['name' => '', 'description' => ""];
+        }
+    }
+
+    public function remove_to_model($model, $index)
+    {
+        $containsActivities = preg_match('/\bactivitiesRisk\b/', $model);
+        $containsDot = strpos($model, '.') !== false;
+
+        if (count($model_explode = explode('.', $model)) == 3 and (
+            ($containsActivities and $containsDot) || ($this->contiene_palabra($model, "activities") &&
+                $this->contiene_palabra($model, "risks"))
+        )) {
+            $model_explode = explode('.', $model);
+            $last_model =  end($model_explode);
+            $first_model =  $model_explode[0];
+            unset($this->{$first_model}[$model_explode[1]][$last_model][$index]);
+            $this->{$first_model}[$model_explode[1]][$last_model] = array_values( $this->{$first_model}[$model_explode[1]][$last_model] );
+        } else if ($this->contiene_palabra($model, "activities.") && $this->contiene_palabra($model, 'risks.')) {
+            $model_explode = explode('.', $model);
+            $last_model =  end($model_explode);
+            $first_model =  $model_explode[0];
+            // dd($model_explode);
+            unset( $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model][$index]);
+            $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model] = array_values( $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model] );
+        } else {
+            unset($this->{$model}[$index]);
+            $this->{$model} = array_values($this->{$model});
+        }
     }
 }
