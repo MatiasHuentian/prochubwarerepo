@@ -1,9 +1,9 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-header-xs">
         {{ $name . ($plural_name ?? 's') }}
     </div>
 
-    <div class="card-body">
+    <div class="card-body-xs">
         @foreach ($list as $index => $element)
             <div class="card mt-4">
                 <div class="card-header">

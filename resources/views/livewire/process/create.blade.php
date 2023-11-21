@@ -129,12 +129,12 @@
         $list = $activities;
         $list_name = 'activities';
     @endphp
-    <div class="card">
-        <div class="card-header">
+    <div class="card-xs">
+        <div class="card-header-xs">
             {{ $name . ($plural_name ?? 's') }}
         </div>
 
-        <div class="card-body">
+        <div class="card-body-xs">
             @foreach ($activities as $in => $activity)
                 <div class="card mt-4">
                     <div class="card-header">
@@ -149,7 +149,7 @@
                                 placeholder="Ingrese nombre de la {{ $name }}" />
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body-xs">
                         @include('livewire.processes-activity.partials.clean', [
                             'name' => 'Riesgo',
                             'plural_name' => 's',
