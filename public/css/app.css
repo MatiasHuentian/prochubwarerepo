@@ -4,12 +4,6 @@
     padding-left: 1rem;
     padding-right: 1rem}
 
-.row-xs {
-    margin-bottom: 3rem;
-    width: 100%;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem}
-
 .card {
     position: relative;
     margin-bottom: 1.5rem;
@@ -34,17 +28,6 @@
     padding-top: 1.5rem;
     padding-bottom: 1.5rem}
 
-.card .card-header-xs {
-    margin-bottom: 0px;
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-    --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem}
-
 .card .card-header-container {
     display: flex;
     justify-content: space-between;
@@ -61,14 +44,6 @@
     flex: 1 1 auto;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-    padding-top: 0px}
-
-.card .card-body-xs {
-    flex: 1 1 auto;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
     padding-top: 0px}
@@ -1465,7 +1440,7 @@ button,
  * as it triggers the better focus styles even for links, which still use a dotted
  * outline in Firefox by default.
  */
-
+ 
 :-moz-focusring {
 	outline: auto;
 }
@@ -1532,14 +1507,14 @@ samp {
  *    CSS Remedy, with `svg` added as well.
  *
  *    https://github.com/mozdevs/cssremedy/issues/14
- *
+ * 
  * 2. Add `vertical-align: middle` to align replaced elements more
  *    sensibly by default when overriding `display` by adding a
  *    utility like `inline`.
  *
  *    This can trigger a poorly considered linting error in some
  *    tools but is included by design.
- *
+ * 
  *    https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210
  */
 
@@ -1877,10 +1852,6 @@ select {
 	top: 0px;
 	bottom: 0px;
 }
-.inset-x-0 {
-	left: 0px;
-	right: 0px;
-}
 .top-0 {
 	top: 0px;
 }
@@ -1889,12 +1860,6 @@ select {
 }
 .right-0 {
 	right: 0px;
-}
-.top-3 {
-	top: 0.75rem;
-}
-.right-3 {
-	right: 0.75rem;
 }
 .z-10 {
 	z-index: 10;
@@ -2068,9 +2033,6 @@ select {
 .max-h-96 {
 	max-height: 24rem;
 }
-.max-h-0 {
-	max-height: 0px;
-}
 .min-h-screen {
 	min-height: 100vh;
 }
@@ -2119,9 +2081,6 @@ select {
 .w-1\/4 {
 	width: 25%;
 }
-.w-\[400px\] {
-	width: 400px;
-}
 .min-w-48 {
 	min-width: 12rem;
 }
@@ -2160,12 +2119,12 @@ select {
 	--tw-translate-y: 1rem;
 	transform: var(--tw-transform);
 }
-.rotate-0 {
-	--tw-rotate: 0deg;
-	transform: var(--tw-transform);
-}
 .rotate-180 {
 	--tw-rotate: 180deg;
+	transform: var(--tw-transform);
+}
+.rotate-0 {
+	--tw-rotate: 0deg;
 	transform: var(--tw-transform);
 }
 .scale-100 {
@@ -2393,10 +2352,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
 }
-.bg-blue-500 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
-}
 .bg-opacity-75 {
 	--tw-bg-opacity: 0.75;
 }
@@ -2421,12 +2376,6 @@ select {
 }
 .p-0 {
 	padding: 0px;
-}
-.p-10 {
-	padding: 2.5rem;
-}
-.p-5 {
-	padding: 1.25rem;
 }
 .py-4 {
 	padding-top: 1rem;
@@ -2476,22 +2425,6 @@ select {
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 }
-.px-10 {
-	padding-left: 2.5rem;
-	padding-right: 2.5rem;
-}
-.px-5 {
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
-}
-.py-0 {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
-.px-0\.5 {
-	padding-left: 0.125rem;
-	padding-right: 0.125rem;
-}
 .pb-4 {
 	padding-bottom: 1rem;
 }
@@ -2533,9 +2466,6 @@ select {
 }
 .pr-2 {
 	padding-right: 0.5rem;
-}
-.pl-5 {
-	padding-left: 1.25rem;
 }
 .text-left {
 	text-align: left;
@@ -2726,9 +2656,6 @@ select {
 .opacity-0 {
 	opacity: 0;
 }
-.opacity-10 {
-	opacity: 0.1;
-}
 .shadow-xl {
 	--tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -2779,11 +2706,6 @@ select {
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	transition-duration: 150ms;
 }
-.transition-transform {
-	transition-property: transform;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
-}
 .duration-150 {
 	transition-duration: 150ms;
 }
@@ -2792,9 +2714,6 @@ select {
 }
 .duration-200 {
 	transition-duration: 200ms;
-}
-.duration-500 {
-	transition-duration: 500ms;
 }
 .ease-linear {
 	transition-timing-function: linear;
@@ -2939,13 +2858,6 @@ select {
 }
 .disabled\:opacity-50:disabled {
 	opacity: 0.5;
-}
-.peer:checked ~ .peer-checked\:max-h-40 {
-	max-height: 10rem;
-}
-.peer:checked ~ .peer-checked\:rotate-180 {
-	--tw-rotate: 180deg;
-	transform: var(--tw-transform);
 }
 @media (prefers-reduced-motion: no-preference) {
 

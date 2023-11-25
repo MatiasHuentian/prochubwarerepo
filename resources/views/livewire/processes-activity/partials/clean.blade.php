@@ -12,10 +12,19 @@
 </div>
 
 <div class="card">
-    <div class="card-header">
+    @php
+        $card_id = str_replace('.', '-', ($in ?? '') . ($list_name ?? ''));
+    @endphp
+    <div class="card-header"
+        onclick="show_hide('card-body-{{ $card_id }}' , 'arrow-collapsable-{{ $card_id }}')">
         {{ $name . ($plural_name ?? 's') }}
+        <div class="card-icon-container">
+            <i id="arrow-collapsable-{{ $card_id }}"
+                class="fas fa-chevron-down card-icon rotate-0"></i>
+        </div>
     </div>
-    <div class="card-body-xs ">
+
+    <div class="card-body-xs block" id="card-body-{{ $card_id }}">
         @php
             if (isset($personal_list)) {
                 $list = ${$personal_list}[$in]['risks'] ?? [];
@@ -39,7 +48,6 @@
                     @include('livewire.activities-risk.clean', [
                         'clean_model' => "$list_name.$index",
                         'personal_list' => $list_name,
-                        'index' => $index,
                     ])
                 </div>
                 <div class="flex items-center m-2 {{ $errors->has("$list_name.$index.name") ? 'invalid' : '' }}">

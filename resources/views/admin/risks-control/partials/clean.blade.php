@@ -1,9 +1,17 @@
 <div class="card">
-    <div class="card-header-xs">
+    @php
+        $card_id = str_replace('.', '-', ($in ?? '') . ($list_name ?? ''));
+    @endphp
+    <div class="card-header-xs"
+        onclick="show_hide('card-body-{{ $card_id }}' , 'arrow-collapsable-{{ $card_id }}')">
         {{ $name . ($plural_name ?? 's') }}
+        <div class="card-icon-container">
+            <i id="arrow-collapsable-{{ $card_id }}"
+                class="fas fa-chevron-down card-icon rotate-0"></i>
+        </div>
     </div>
 
-    <div class="card-body-xs">
+    <div class="card-body-xs block" id="card-body-{{ $card_id }}">
         @foreach ($list as $index => $element)
             <div class="card mt-4">
                 <div class="card-header">
@@ -22,8 +30,8 @@
                         class="form-group {{ $errors->has($list_name . ".$index" . '.frecuency_id') ? 'invalid' : '' }}">
                         <label class="form-label"
                             for="frecuency">{{ trans('cruds.risksControl.fields.frecuency') }}</label>
-                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-frecuency" modoEdicion="{{ $modoEdicion ?? false }}"
-                            name="frecuency" :options="$this->listsForFields['frecuency']"
+                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-frecuency"
+                            modoEdicion="{{ $modoEdicion ?? false }}" name="frecuency" :options="$this->listsForFields['frecuency']"
                             wire:model="{{ $list_name }}.{{ $index }}.frecuency_id" />
                         <div class="validation-message">
                             {{ $errors->first($list_name . ".$index" . '.frecuency_id') }}
@@ -35,8 +43,8 @@
                     <div class="form-group {{ $errors->has($list_name . ".$index" . '.method_id') ? 'invalid' : '' }}">
                         <label class="form-label"
                             for="method">{{ trans('cruds.risksControl.fields.method') }}</label>
-                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-method" modoEdicion="{{ $modoEdicion ?? false }}"
-                            name="method" :options="$this->listsForFields['method']"
+                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-method"
+                            modoEdicion="{{ $modoEdicion ?? false }}" name="method" :options="$this->listsForFields['method']"
                             wire:model="{{ $list_name }}.{{ $index }}.method_id" />
                         <div class="validation-message">
                             {{ $errors->first($list_name . ".$index" . '.method_id') }}
@@ -47,8 +55,8 @@
                     </div>
                     <div class="form-group {{ $errors->has($list_name . ".$index" . '.type_id') ? 'invalid' : '' }}">
                         <label class="form-label" for="type">{{ trans('cruds.risksControl.fields.type') }}</label>
-                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-type" modoEdicion="{{ $modoEdicion ?? false }}"
-                            name="type" :options="$this->listsForFields['type']"
+                        <x-select-list-v3 class="form-control" id="{{ $list_name }}-{{ $index }}-type"
+                            modoEdicion="{{ $modoEdicion ?? false }}" name="type" :options="$this->listsForFields['type']"
                             wire:model="{{ $list_name }}.{{ $index }}.type_id"
                             placeholder="Seleccione tipo" />
                         <div class="validation-message">

@@ -129,12 +129,21 @@
         $list = $activities;
         $list_name = 'activities';
     @endphp
+
     <div class="card-xs">
-        <div class="card-header-xs">
+        @php
+            $card_id = str_replace('.', '-', ($in ?? '') . ($list_name ?? ''));
+        @endphp
+        <div class="card-header-xs"
+            onclick="show_hide('card-body-{{ $card_id }}' , 'arrow-collapsable-{{ $card_id }}')">
             {{ $name . ($plural_name ?? 's') }}
+            <div class="card-icon-container">
+                <i id="arrow-collapsable-{{ $card_id }}"
+                    class="fas fa-chevron-down card-icon rotate-0"></i>
+            </div>
         </div>
 
-        <div class="card-body-xs">
+        <div class="card-body-xs block" id="card-body-{{ $card_id }}">
             @foreach ($activities as $in => $activity)
                 <div class="card mt-4">
                     <div class="card-header">
@@ -156,7 +165,7 @@
                             'list' => $activity['risks'] ?? [],
                             'list_name' => "activities.$in.risks",
                             'clean_model' => "activities.$in",
-                            'personal_list' => "activities",
+                            'personal_list' => 'activities',
                         ])
                     </div>
                     <div class="flex items-center m-2 {{ $errors->has("$list_name.$in.name") ? 'invalid' : '' }}">

@@ -14,7 +14,6 @@
 @push('scripts')
     <script>
         document.addEventListener("livewire:load", () => {
-            console.log("me cargó este otro");
             let el = $('#{{ $attributes['id'] }}')
             let buttonsId = '#{{ $attributes['id'] }}-btn-container'
             function initSelect() {
