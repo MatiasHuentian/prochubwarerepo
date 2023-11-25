@@ -67,9 +67,6 @@
                             @include('components.table.sort', ['field' => 'category.name'])
                         </th>
                         <th>
-                            {{ trans('cruds.attachment.fields.src') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.attachment.fields.description') }}
                             @include('components.table.sort', ['field' => 'description'])
                         </th>
@@ -110,15 +107,6 @@
                                 @if($attachment->category)
                                     <span class="badge badge-relationship">{{ $attachment->category->name ?? '' }}</span>
                                 @endif
-                            </td>
-                            <td>
-                                @foreach($attachment->src as $key => $entry)
-                                    <a class="link-light-blue" href="{{ $entry['url'] }}">
-                                        <i class="far fa-file">
-                                        </i>
-                                        {{ $entry['file_name'] }}
-                                    </a>
-                                @endforeach
                             </td>
                             <td>
                                 {{ $attachment->description }}

@@ -55,6 +55,28 @@
                                 @endif
                             </td>
                         </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.attachment.fields.src') }}
+                            </th>
+                            <td>
+                                @foreach($attachment->src as $key => $entry)
+                                    <a class="link-light-blue" href="{{ $entry['url'] }}">
+                                        <i class="far fa-file">
+                                        </i>
+                                        {{ $entry['file_name'] }}
+                                    </a>
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.attachment.fields.description') }}
+                            </th>
+                            <td>
+                                {{ $attachment->description }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

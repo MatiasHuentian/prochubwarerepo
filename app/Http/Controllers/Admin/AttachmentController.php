@@ -38,7 +38,7 @@ class AttachmentController extends Controller
     {
         abort_if(Gate::denies('attachment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $attachment->load('process', 'type', 'category');
+        $attachment->load('process', 'category');
 
         return view('admin.attachment.show', compact('attachment'));
     }

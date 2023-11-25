@@ -30,6 +30,16 @@
             {{ trans('cruds.attachment.fields.category_helper') }}
         </div>
     </div>
+    <div class="form-group {{ $errors->has('mediaCollections.attachment_src') ? 'invalid' : '' }}">
+        <label class="form-label" for="src">{{ trans('cruds.attachment.fields.src') }}</label>
+        <x-dropzone id="src" name="src" action="{{ route('admin.attachments.storeMedia') }}" collection-name="attachment_src" max-file-size="2" max-files="1" />
+        <div class="validation-message">
+            {{ $errors->first('mediaCollections.attachment_src') }}
+        </div>
+        <div class="help-block">
+            {{ trans('cruds.attachment.fields.src_helper') }}
+        </div>
+    </div>
     <div class="form-group {{ $errors->has('attachment.description') ? 'invalid' : '' }}">
         <label class="form-label" for="description">{{ trans('cruds.attachment.fields.description') }}</label>
         <textarea class="form-control" name="description" id="description" wire:model.defer="attachment.description" rows="4"></textarea>
