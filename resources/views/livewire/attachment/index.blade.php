@@ -55,13 +55,17 @@
                             @include('components.table.sort', ['field' => 'process.objective'])
                         </th>
                         <th>
+                            {{ trans('cruds.attachment.fields.type') ?? 'Tipo'  }}
+                            @include('components.table.sort', ['field' => 'onemedia.mime_type'])
+                        </th>
+                        {{-- <th>
                             {{ trans('cruds.attachment.fields.type') }}
                             @include('components.table.sort', ['field' => 'type.name'])
-                        </th>
-                        <th>
+                        </th> --}}
+                        {{-- <th>
                             {{ trans('cruds.attachmentsType.fields.active') }}
                             @include('components.table.sort', ['field' => 'type.active'])
-                        </th>
+                        </th> --}}
                         <th>
                             {{ trans('cruds.attachment.fields.category') }}
                             @include('components.table.sort', ['field' => 'category.name'])
@@ -94,15 +98,20 @@
                                 @endif
                             </td>
                             <td>
+                                @if($attachment->onemedia)
+                                    <span class="badge badge-relationship">{{ $attachment->MimeTypeForHuman ?? '' }}</span>
+                                @endif
+                            </td>
+                            {{-- <td>
                                 @if($attachment->type)
                                     <span class="badge badge-relationship">{{ $attachment->type->name ?? '' }}</span>
                                 @endif
-                            </td>
-                            <td>
+                            </td> --}}
+                            {{-- <td>
                                 @if($attachment->type)
                                     <input class="disabled:opacity-50 disabled:cursor-not-allowed" type="checkbox" disabled {{ $attachment->type->active ? 'checked' : '' }}>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>
                                 @if($attachment->category)
                                     <span class="badge badge-relationship">{{ $attachment->category->name ?? '' }}</span>

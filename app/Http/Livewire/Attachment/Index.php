@@ -67,7 +67,7 @@ class Index extends Component
 
     public function render()
     {
-        $query = Attachment::with(['process', 'type', 'category'])->advancedFilter([
+        $query = Attachment::with(['process', 'category' , 'onemedia'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,

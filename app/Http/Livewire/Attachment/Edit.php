@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Attachment;
 
 use App\Models\Attachment;
 use App\Models\AttachmentsCategory;
-use App\Models\AttachmentsType;
 use App\Models\Process;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -81,11 +81,6 @@ class Edit extends Component
                 'exists:processes,id',
                 'required',
             ],
-            'attachment.type_id' => [
-                'integer',
-                'exists:attachments_types,id',
-                'required',
-            ],
             'attachment.category_id' => [
                 'integer',
                 'exists:attachments_categories,id',
@@ -99,6 +94,30 @@ class Edit extends Component
                 'integer',
                 'exists:media,id',
             ],
+            Rule::in([
+                'text/plain',
+                'text/html',
+                'text/css',
+                // ... otras opciones ...
+                'application/pdf',
+                'application/zip',
+                'application/json',
+                'application/xml',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                // ... otras opciones ...
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                // ... otras opciones ...
+                'audio/mpeg',
+                'audio/wav',
+                'audio/ogg',
+                // ... otras opciones ...
+                'video/mp4',
+                'video/webm',
+                'video/ogg',
+                // ... otras opciones ...
+            ]),
             'attachment.description' => [
                 'string',
                 'nullable',
@@ -109,7 +128,6 @@ class Edit extends Component
     protected function initListsForFields(): void
     {
         $this->listsForFields['process']  = Process::pluck('name', 'id')->toArray();
-        $this->listsForFields['type']     = AttachmentsType::pluck('name', 'id')->toArray();
         $this->listsForFields['category'] = AttachmentsCategory::pluck('name', 'id')->toArray();
     }
 }

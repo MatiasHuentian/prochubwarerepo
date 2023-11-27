@@ -152,7 +152,7 @@
                 @endcan
                 @can('attachmentsfile_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/attachments*")||request()->is("admin/attachments-types*")||request()->is("admin/attachments-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("admin/attachments*")||request()->is("admin/attachments-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-copy">
                             </i>
                             {{ trans('cruds.attachmentsfile.title') }}
@@ -164,15 +164,6 @@
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-file-export">
                                         </i>
                                         {{ trans('cruds.attachment.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('attachments_type_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/attachments-types*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.attachments-types.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-copy">
-                                        </i>
-                                        {{ trans('cruds.attachmentsType.title') }}
                                     </a>
                                 </li>
                             @endcan

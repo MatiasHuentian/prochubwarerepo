@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\ActivitiesRisksPoliticController;
 use App\Http\Controllers\Admin\ActivitiesRisksProbabilityController;
 use App\Http\Controllers\Admin\AttachmentController;
 use App\Http\Controllers\Admin\AttachmentsCategoryController;
-use App\Http\Controllers\Admin\AttachmentsTypeController;
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\DependencyController;
 use App\Http\Controllers\Admin\DirectionController;
@@ -74,11 +73,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     // Audit Logs
     Route::resource('audit-logs', AuditLogController::class, ['except' => ['store', 'update', 'destroy', 'create', 'edit']]);
-
-    // Attachments Type
-    Route::post('attachments-types/csv', [AttachmentsTypeController::class, 'csvStore'])->name('attachments-types.csv.store');
-    Route::put('attachments-types/csv', [AttachmentsTypeController::class, 'csvUpdate'])->name('attachments-types.csv.update');
-    Route::resource('attachments-types', AttachmentsTypeController::class, ['except' => ['store', 'update', 'destroy', 'show']]);
 
     // Attachments Category
     Route::post('attachments-categories/csv', [AttachmentsCategoryController::class, 'csvStore'])->name('attachments-categories.csv.store');

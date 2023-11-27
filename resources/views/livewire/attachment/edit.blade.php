@@ -10,16 +10,6 @@
             {{ trans('cruds.attachment.fields.process_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('attachment.type_id') ? 'invalid' : '' }}">
-        <label class="form-label required" for="type">{{ trans('cruds.attachment.fields.type') }}</label>
-        <x-select-list class="form-control" required id="type" name="type" :options="$this->listsForFields['type']" wire:model="attachment.type_id" />
-        <div class="validation-message">
-            {{ $errors->first('attachment.type_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.attachment.fields.type_helper') }}
-        </div>
-    </div>
     <div class="form-group {{ $errors->has('attachment.category_id') ? 'invalid' : '' }}">
         <label class="form-label required" for="category">{{ trans('cruds.attachment.fields.category') }}</label>
         <x-select-list class="form-control" required id="category" name="category" :options="$this->listsForFields['category']" wire:model="attachment.category_id" />

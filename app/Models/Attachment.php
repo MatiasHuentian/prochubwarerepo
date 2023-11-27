@@ -30,7 +30,6 @@ class Attachment extends Model implements HasMedia
 
     protected $fillable = [
         'process_id',
-        'type_id',
         'category_id',
         'description',
     ];
@@ -39,9 +38,8 @@ class Attachment extends Model implements HasMedia
         'id',
         'process.name',
         'process.objective',
-        'type.name',
-        'type.active',
         'category.name',
+        'onemedia.mime_type',
         'description',
     ];
 
@@ -49,9 +47,8 @@ class Attachment extends Model implements HasMedia
         'id',
         'process.name',
         'process.objective',
-        'type.name',
-        'type.active',
         'category.name',
+        'onemedia.mime_type',
         'description',
     ];
 
@@ -65,14 +62,43 @@ class Attachment extends Model implements HasMedia
         return $this->belongsTo(Process::class);
     }
 
-    public function type()
-    {
-        return $this->belongsTo(AttachmentsType::class);
-    }
-
     public function category()
     {
         return $this->belongsTo(AttachmentsCategory::class);
+    }
+
+    public function onemedia()
+    {
+        return $this->morphOne(config('media-library.media_model'), 'model');
+    }
+
+    public function getMimeTypeForHumanAttribute()
+    {
+        $mimeTypes = [
+            'text/plain' => 'Texto plano',
+            'text/html' => 'HTML',
+            'text/css' => 'CSS',
+            // ... otras opciones ...
+            'application/pdf' => 'PDF',
+            'application/zip' => 'ZIP',
+            'application/json' => 'JSON',
+            'application/xml' => "XML",
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'Excel',
+            // ... otras opciones ...
+            'image/jpeg' => 'JPEG',
+            'image/png' => 'PNG',
+            'image/gif' => 'GIF',
+            // ... otras opciones ...
+            'audio/mpeg' => 'Audio MPEG',
+            'audio/wav' => 'Audio WAV',
+            'audio/ogg' => 'Audio OGG',
+            // ... otras opciones ...
+            'video/mp4' => 'Video MP4',
+            'video/webm' => 'Video WEBM',
+            'video/ogg' => 'Video OGG',
+            // ... otras opciones ...
+        ];
+        return $this->onemedia ? ($mimeTypes[$this->onemedia->mime_type] ?? null) : (null);
     }
 
     public function getSrcAttribute()

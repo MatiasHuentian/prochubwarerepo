@@ -37,16 +37,6 @@
                         </tr>
                         <tr>
                             <th>
-                                {{ trans('cruds.attachment.fields.type') }}
-                            </th>
-                            <td>
-                                @if($attachment->type)
-                                    <span class="badge badge-relationship">{{ $attachment->type->name ?? '' }}</span>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
                                 {{ trans('cruds.attachment.fields.category') }}
                             </th>
                             <td>

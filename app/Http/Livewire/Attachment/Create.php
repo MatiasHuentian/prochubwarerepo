@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Attachment;
 
 use App\Models\Attachment;
 use App\Models\AttachmentsCategory;
-use App\Models\AttachmentsType;
 use App\Models\Process;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -66,16 +65,10 @@ class Create extends Component
 
     protected function rules(): array
     {
-
         return [
             'attachment.process_id' => [
                 'integer',
                 'exists:processes,id',
-                'required',
-            ],
-            'attachment.type_id' => [
-                'integer',
-                'exists:attachments_types,id',
                 'required',
             ],
             'attachment.category_id' => [
@@ -128,7 +121,6 @@ class Create extends Component
     protected function initListsForFields(): void
     {
         $this->listsForFields['process']  = Process::pluck('name', 'id')->toArray();
-        $this->listsForFields['type']     = AttachmentsType::pluck('name', 'id')->toArray();
         $this->listsForFields['category'] = AttachmentsCategory::pluck('name', 'id')->toArray();
     }
 }
