@@ -18,6 +18,7 @@
             let buttonsId = '#{{ $attributes['id'] }}-btn-container'
             function initSelect() {
                 // initButtons()
+                // console.log("select with pivot");
                 el.select2({
                     placeholder: '{{ __('Select your option') }}',
                     allowClear: !el.attr('required'),
@@ -43,13 +44,8 @@
         });
         // let change_function = "{{ $changefunction }}";
         const change_function_{{ $attributes['id'] }} = "{{ $changefunction }}";
-        console.log("definiendo lo del select pivot");
-        console.log( change_function_{{ $attributes['id'] }} );
 
         function callLivewireFunction_{{ $attributes['id'] }}() {
-            console.log("este es el call a probar ando:");
-            console.log(change_function_{{ $attributes['id'] }});
-
             @this.call(change_function_{{ $attributes['id'] }}); // Llama a la función de Livewire
         }
     </script>

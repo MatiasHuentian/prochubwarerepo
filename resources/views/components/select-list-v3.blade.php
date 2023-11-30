@@ -14,6 +14,7 @@
             document.addEventListener('livewire:load', function() {
                 function initSelect() {
                     let el = $('#{{ $attributes['id'] }}');
+                    // console.log("v3 fall");
                     el.select2({
                         placeholder: '{{ __('Select your option') }}',
                         allowClear: !el.attr('required')
@@ -34,9 +35,10 @@
         </script>
     @else
         <script>
-            $(document).ready(function() {
+            document.addEventListener('livewire:load', function() {
                 function initSelect() {
                     let el = $('#{{ $attributes['id'] }}');
+                    // console.log("velse fall");
                     el.select2({
                         placeholder: '{{ __('Select your option') }}',
                         allowClear: !el.attr('required')

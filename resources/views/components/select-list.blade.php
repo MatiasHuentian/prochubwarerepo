@@ -38,6 +38,7 @@
             }
 
             function initSelect() {
+                // console.log("v0 fall");
                 initButtons()
                 el.select2({
                     placeholder: '{{ __('Select your option') }}',

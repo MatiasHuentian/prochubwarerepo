@@ -17,6 +17,7 @@
             let el = $('#{{ $attributes['id'] }}')
             let buttonsId = '#{{ $attributes['id'] }}-btn-container'
             function initSelect() {
+                // console.log("v2 fall");
                 el.select2({
                     placeholder: '{{ __('Select your option') }}',
                     allowClear: !el.attr('required')
