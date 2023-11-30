@@ -20,6 +20,7 @@ use App\Models\ActivitiesRisksPolitic;
 use App\Models\RisksControlsFrecuency;
 use App\Models\ActivitiesRisksConsequence;
 use App\Models\ActivitiesRisksProbability;
+use Illuminate\Support\Arr;
 
 class Edit extends Component
 {
@@ -41,16 +42,51 @@ class Edit extends Component
 
     public array $activities = [];
 
+    public array $kpis = [];
+
+    public function pivot_many_format($data, $model)
+    {
+        $transformedData = [];
+        $descriptions = [];
+        foreach ($data as $item) {
+            $transformedItem = [
+                "id" => $item["id"],
+                "name" => ($item["name"] ??  $item["term"]), // setear name, en caso de no existir name, que entonces term
+                "description" => $item["pivot"]["description"],
+                "descriptions" => $descriptions,
+            ];
+
+            $transformedData[] = $transformedItem;
+        }
+
+        // Resultado final
+        return $transformedData;
+    }
 
     public function mount(Process $process)
     {
         $this->process         = $process;
-        $this->glosary         = $this->process->glosary()->pluck('id')->toArray();
-        $this->input           = $this->process->input()->pluck('id')->toArray();
-        $this->output          = $this->process->output()->pluck('id')->toArray();
-        $this->objective_group = $this->process->objectiveGroup()->pluck('id')->toArray();
 
-        $this->process = $this->process->load(['activities' => function ($query) {
+        $relations_many = [
+            'glosary'         => $this->process->glosary,
+            'input'           => $this->process->input,
+            'output'          => $this->process->output,
+            'objectiveGroup' => $this->process->objectiveGroup,
+        ];
+
+        $this->glosary         = $relations_many['glosary']->pluck('id')->toArray();
+        $this->input           = $relations_many['input']->pluck('id')->toArray();
+        $this->output          = $relations_many['output']->pluck('id')->toArray();
+        $this->objective_group = $relations_many['objectiveGroup']->pluck('id')->toArray();
+
+        $this->inputs = $this->pivot_many_format($relations_many['input'] , new Input());
+        $this->glossaries = $this->pivot_many_format($relations_many['glosary'] , new Glossary());
+        $this->outputs = $this->pivot_many_format($relations_many['output'] , new Output());
+        $this->objectives_groups = $this->pivot_many_format($relations_many['objectiveGroup'] , new ObejctivesGroup());
+
+
+
+        $this->process = $this->process->load(['kpis', 'activities' => function ($query) {
             return $query->with(['risks' => function ($query) {
                 return $query->with(
                     'causes',
@@ -62,6 +98,8 @@ class Edit extends Component
 
         $this->activities = $this->process->activities->toArray();
 
+        $this->kpis = $this->process->kpis->toArray();
+
         $this->initListsForFields();
     }
 
@@ -70,11 +108,12 @@ class Edit extends Component
         return view('livewire.process.edit');
     }
 
-    private function refactor_many_to_many($collection)
+    private function refactor_many_to_many($collection, $model)
     {
         $syncData = [];
         foreach ($collection as $item) {
-            $id = $item['id'];
+            $base_model = $model::firstOrCreate(['id' => $item['id']], ['id'  => null] + (Arr::except($item, ['id'])));
+            $id = $base_model->id;
             $description = $item['description'];
             $syncData[$id] = ['description' => $description];
         }
@@ -87,16 +126,22 @@ class Edit extends Component
 
         $this->process->save();
         $this->process->input()->sync(
-            $this->refactor_many_to_many($this->inputs)
+            $this->refactor_many_to_many($this->inputs, new Input())
         );
+
+        foreach ($this->glossaries as &$item) {
+            $item['term'] = $item['name'];
+            unset($item['name']);
+        }
+
         $this->process->glosary()->sync(
-            $this->refactor_many_to_many($this->glossaries)
+            $this->refactor_many_to_many($this->glossaries, new Glossary())
         );
         $this->process->output()->sync(
-            $this->refactor_many_to_many($this->outputs)
+            $this->refactor_many_to_many($this->outputs, new Output())
         );
         $this->process->objectiveGroup()->sync(
-            $this->refactor_many_to_many($this->objectives_groups)
+            $this->refactor_many_to_many($this->objectives_groups, new ObejctivesGroup())
         );
         $this->process->activities()->delete();
         foreach ($this->activities as $activity) {
@@ -132,6 +177,11 @@ class Edit extends Component
                     }
                 }
             }
+        }
+
+        $this->process->kpis()->delete();
+        foreach ($this->kpis as $activity) {
+            $kpis = $this->process->kpis()->create($activity);
         }
 
         return redirect()->route('admin.processes.index');
@@ -206,6 +256,29 @@ class Edit extends Component
             'objective_group.*.id' => [
                 'integer',
                 'exists:obejctives_groups,id',
+            ],
+            'kpis' => [
+                'array'
+            ],
+            'kpis.*.name' => [
+                'string',
+                'required'
+            ],
+            'kpis.*.name' => [
+                'string',
+                'required'
+            ],
+            'kpis.*.description' => [
+                'string',
+                'nullable'
+            ],
+            'kpis.*.calculate_form' => [
+                'string',
+                'nullable'
+            ],
+            'kpis.*.ubication_data' => [
+                'string',
+                'nullable'
             ],
         ];
     }
@@ -316,4 +389,169 @@ class Edit extends Component
             $this->{$model} = array_values($this->{$model});
         }
     }
+
+    public function select_glosary()
+    {
+        // Filtrar $glossaries
+        $glossaries = array_filter($this->glossaries, function ($glossary) {
+            return in_array($glossary['id'], $this->glosary);
+        });
+
+        // Crear elementos faltantes
+        $existingIds = array_column($this->glossaries, 'id');
+        $missingIds = array_diff($this->glosary, $existingIds);
+        $descriptions = [];
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['glosary'][$missingId] ?? false) {
+                // En caso de que exista el id
+                $name = $this->listsForFields['glosary'][$missingId];
+                $descriptions = Glossary::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['glosary'],  $missingId);
+                $name = $missingId;
+                $missingId =  $missingId;
+            }
+
+            $glossaries[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+                'descriptions' => $descriptions,
+            ];
+        }
+
+        $this->glossaries = $glossaries;
+        $this->dispatchBrowserEvent('apply_select2');
+    }
+
+    public function select_input()
+    {
+        // Filtrar $inputs
+        $inputs = array_filter($this->inputs, function ($input) {
+            return in_array($input['id'], $this->input);
+        });
+
+        // Crear elementos faltantes
+        $existingIds = array_column($this->inputs, 'id');
+        $missingIds = array_diff($this->input, $existingIds);
+        $descriptions = [];
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['input'][$missingId] ?? false) {
+                // En caso de que exista el id
+                $name = $this->listsForFields['input'][$missingId];
+                $descriptions = Input::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['input'],  $missingId);
+                $name = $missingId;
+                $missingId =  $missingId;
+            }
+
+            $inputs[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+                'descriptions' => $descriptions,
+            ];
+        }
+
+        $this->inputs = $inputs;
+        $this->dispatchBrowserEvent('apply_select2');
+    }
+
+    public function select_output()
+    {
+        // Filtrar $outputs
+        $outputs = array_filter($this->outputs, function ($output) {
+            return in_array($output['id'], $this->output);
+        });
+
+        // Crear elementos faltantes
+        $existingIds = array_column($this->outputs, 'id');
+        $missingIds = array_diff($this->output, $existingIds);
+        $descriptions = [];
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['output'][$missingId] ?? false) {
+                // En caso de que exista el id
+                $name = $this->listsForFields['output'][$missingId];
+                $descriptions = output::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['output'],  $missingId);
+                $name = $missingId;
+                $missingId =  $missingId;
+            }
+
+            $outputs[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+                'descriptions' => $descriptions,
+            ];
+        }
+
+        $this->outputs = $outputs;
+        $this->dispatchBrowserEvent('apply_select2');
+    }
+
+    public function select_objective_group()
+    {
+        // Filtrar $objectives_groups
+        $objectives_groups = array_filter($this->objectives_groups, function ($objective_group) {
+            return in_array($objective_group['id'], $this->objective_group);
+        });
+
+        // Crear elementos faltantes
+        $existingIds = array_column($this->objectives_groups, 'id');
+        $missingIds = array_diff($this->objective_group, $existingIds);
+        $descriptions = [];
+        foreach ($missingIds as $missingId) {
+            if ($this->listsForFields['objective_group'][$missingId] ?? false) {
+                // En caso de que exista el id
+                $name = $this->listsForFields['objective_group'][$missingId];
+                $descriptions = ObejctivesGroup::with('processes')->find($missingId)
+                    ->processes
+                    ->unique() // Filtra descripciones únicas
+                    ->mapWithKeys(function ($process) {
+                        return [$process->pivot->description => $process->pivot->description];
+                    })
+                    ->toArray();
+            } else {
+                // en caso de que no exista el id
+                array_push($this->listsForFields['objective_group'],  $missingId);
+                $name = $missingId;
+                $missingId =  $missingId;
+            }
+
+            $objectives_groups[] = [
+                'id' => $missingId,
+                'name' => $name,
+                'description' => "",
+                'descriptions' => $descriptions,
+            ];
+        }
+
+        $this->objectives_groups = $objectives_groups;
+        $this->dispatchBrowserEvent('apply_select2');
+    }
+
 }

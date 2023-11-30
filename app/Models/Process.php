@@ -111,17 +111,17 @@ class Process extends Model
 
     public function input()
     {
-        return $this->belongsToMany(Input::class);
+        return $this->belongsToMany(Input::class)->withPivot('description');
     }
 
     public function output()
     {
-        return $this->belongsToMany(Output::class);
+        return $this->belongsToMany(Output::class)->withPivot('description');
     }
 
     public function objectiveGroup()
     {
-        return $this->belongsToMany(ObejctivesGroup::class);
+        return $this->belongsToMany(ObejctivesGroup::class)->withPivot('description');
     }
 
     public function getCreatedAtAttribute($value)
@@ -143,5 +143,10 @@ class Process extends Model
     public function activities()
     {
         return $this->hasMany(ProcessesActivity::class, 'process_id', 'id');
+    }
+
+    public function kpis()
+    {
+        return $this->hasMany(ProcessesKpi::class, 'process_id', 'id');
     }
 }

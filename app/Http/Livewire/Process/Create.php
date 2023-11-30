@@ -41,6 +41,8 @@ class Create extends Component
 
     public array $activities = [];
 
+    public array $kpis = [];
+
     public array $listsForFields = [];
 
     public function mount(Process $process)
@@ -54,11 +56,12 @@ class Create extends Component
         return view('livewire.process.create');
     }
 
-    private function refactor_many_to_many($collection)
+    private function refactor_many_to_many($collection, $model)
     {
         $syncData = [];
         foreach ($collection as $item) {
-            $id = $item['id'];
+            $base_model = $model::firstOrCreate(['id' => $item['id']], ['id'  => null] + (Arr::except($item, ['id'])));
+            $id = $base_model->id;
             $description = $item['description'];
             $syncData[$id] = ['description' => $description];
         }
@@ -69,18 +72,33 @@ class Create extends Component
     {
         $this->validate();
         $this->process->save();
-        $this->process->input()->sync(
-            $this->refactor_many_to_many($this->inputs)
-        );
+
+        foreach ($this->glossaries as &$item) {
+            $item['term'] = $item['name'];
+            unset($item['name']);
+        }
+
         $this->process->glosary()->sync(
-            $this->refactor_many_to_many($this->glossaries)
+            $this->refactor_many_to_many($this->glossaries, new Glossary())
         );
+
+
+        $this->process->input()->sync(
+            $this->refactor_many_to_many($this->inputs,  new Input() )
+        );
+
         $this->process->output()->sync(
-            $this->refactor_many_to_many($this->outputs)
+            $this->refactor_many_to_many($this->outputs, new Output())
         );
+
         $this->process->objectiveGroup()->sync(
-            $this->refactor_many_to_many($this->objectives_groups)
+            $this->refactor_many_to_many($this->objectives_groups, new ObejctivesGroup())
         );
+
+
+        foreach ($this->kpis as $i => $kpi) {
+            $this->process->kpis()->create($kpi);
+        }
 
         foreach ($this->activities as $activity) {
             $activities = $this->process->activities()->create($activity);
@@ -113,6 +131,7 @@ class Create extends Component
                 }
             }
         }
+
         return redirect()->route('admin.processes.index');
     }
 
@@ -185,6 +204,29 @@ class Create extends Component
             'objective_group.*.id' => [
                 'integer',
                 'exists:obejctives_groups,id',
+            ],
+            'kpis' => [
+                'array'
+            ],
+            'kpis.*.name' => [
+                'string',
+                'required'
+            ],
+            'kpis.*.name' => [
+                'string',
+                'required'
+            ],
+            'kpis.*.description' => [
+                'string',
+                'nullable'
+            ],
+            'kpis.*.calculate_form' => [
+                'string',
+                'nullable'
+            ],
+            'kpis.*.ubication_data' => [
+                'string',
+                'nullable'
             ],
         ];
     }
@@ -424,13 +466,11 @@ class Create extends Component
             $last_model =  end($model_explode);
             $first_model =  $model_explode[0];
             $this->{$first_model}[$model_explode[1]][$last_model][] =
-                ['name' => '', 'description' => ""]
-            ;
+                ['name' => '', 'description' => ""];
         } else if ($this->contiene_palabra($model, "activities.") && $this->contiene_palabra($model, 'risks.')) {
             $model_explode = explode('.', $model);
             $last_model =  end($model_explode);
             $first_model =  $model_explode[0];
-            // dd($model_explode);
             $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model][] = [
                 ['name' => '', 'description' => ""]
             ];
@@ -453,14 +493,13 @@ class Create extends Component
             $last_model =  end($model_explode);
             $first_model =  $model_explode[0];
             unset($this->{$first_model}[$model_explode[1]][$last_model][$index]);
-            $this->{$first_model}[$model_explode[1]][$last_model] = array_values( $this->{$first_model}[$model_explode[1]][$last_model] );
+            $this->{$first_model}[$model_explode[1]][$last_model] = array_values($this->{$first_model}[$model_explode[1]][$last_model]);
         } else if ($this->contiene_palabra($model, "activities.") && $this->contiene_palabra($model, 'risks.')) {
             $model_explode = explode('.', $model);
             $last_model =  end($model_explode);
             $first_model =  $model_explode[0];
-            // dd($model_explode);
-            unset( $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model][$index]);
-            $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model] = array_values( $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model] );
+            unset($this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model][$index]);
+            $this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model] = array_values($this->{$first_model}[$model_explode[1]][$model_explode[2]][$model_explode[3]][$last_model]);
         } else {
             unset($this->{$model}[$index]);
             $this->{$model} = array_values($this->{$model});
