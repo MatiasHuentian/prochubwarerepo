@@ -149,4 +149,9 @@ class Process extends Model
     {
         return $this->hasMany(ProcessesKpi::class, 'process_id', 'id');
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class, 'process_id', 'id');
+    }
 }

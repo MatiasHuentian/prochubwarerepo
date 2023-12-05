@@ -20,12 +20,22 @@ use App\Models\ActivitiesRisksImpact;
 use App\Models\ActivitiesRisksPolitic;
 use App\Models\RisksControlsFrecuency;
 use App\Models\ActivitiesRisksProbability;
+use App\Models\AttachmentsCategory;
 use App\Models\RisksControl;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Create extends Component
 {
     public Process $process;
+
+    public array $test_arr = [];
+    // public function addtest_array(){
+    //     $this->test_arr[]=[];
+    //     $last_id = array_key_last($this->test_arr);
+    //     $this->dispatchBrowserEvent('reApplyDropzone_'.$last_id);
+    // }
 
     public array $input = [];
     public array $inputs = [];
@@ -43,7 +53,36 @@ class Create extends Component
 
     public array $kpis = [];
 
+    public array $attachments = [];
+
+    public array $mediaToRemove = [];
+
+    public array $mediaCollections = [];
+
     public array $listsForFields = [];
+
+    public function addMedia($media): void
+    {
+        $this->mediaCollections[$media['collection_name']][] = $media;
+    }
+
+    public function removeMedia($media): void
+    {
+        $collection = collect($this->mediaCollections[$media['collection_name']]);
+
+        $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
+
+        $this->mediaToRemove[] = $media['uuid'];
+    }
+
+    protected function syncMedia( $attachment , $id = null ): void
+    {
+        collect($this->mediaCollections)->flatten(1)->where('model_id' , '=' , $id)
+            ->each(fn ($item) => Media::where('uuid', $item['uuid'])
+                ->update(['model_id' => $attachment->id]));
+
+        Media::whereIn('uuid', $this->mediaToRemove)->delete();
+    }
 
     public function mount(Process $process)
     {
@@ -72,6 +111,13 @@ class Create extends Component
     {
         $this->validate();
         $this->process->save();
+
+        foreach ($this->attachments as $i => $attachment) {
+            $attachment_model = $this->process->attachments()->create($attachment);
+            if ( collect($this->mediaCollections)->flatten(1)[$i] ?? false ){
+                $this->syncMedia( $attachment_model , $i);
+            }
+        }
 
         foreach ($this->glossaries as &$item) {
             $item['term'] = $item['name'];
@@ -228,6 +274,41 @@ class Create extends Component
                 'string',
                 'nullable'
             ],
+            'attachments.*.mediaCollections.attachment_src' => [
+                'array',
+                'nullable',
+            ],
+            'attachments.*.mediaCollections.attachment_src.*.id' => [
+                'integer',
+                'exists:media,id',
+            ],
+            'attachments.*.mediaCollections.attachment_src.*.mime_type' => [
+                'string',
+                Rule::in([
+                    'text/plain',
+                    'text/html',
+                    'text/css',
+                    // ... otras opciones ...
+                    'application/pdf',
+                    'application/zip',
+                    'application/json',
+                    'application/xml',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    // ... otras opciones ...
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                    // ... otras opciones ...
+                    'audio/mpeg',
+                    'audio/wav',
+                    'audio/ogg',
+                    // ... otras opciones ...
+                    'video/mp4',
+                    'video/webm',
+                    'video/ogg',
+                    // ... otras opciones ...
+                ]),
+            ],
         ];
     }
 
@@ -254,6 +335,8 @@ class Create extends Component
         $this->listsForFields['frecuency']          = RisksControlsFrecuency::pluck('name', 'id')->toArray();
         $this->listsForFields['method']             = RisksControlsMethod::pluck('name', 'id')->toArray();
         $this->listsForFields['type']               = RisksControlsType::pluck('name', 'id')->toArray();
+
+        $this->listsForFields['category']           = AttachmentsCategory::pluck('name', 'id')->toArray();
     }
 
     public function select_glosary()
@@ -477,6 +560,11 @@ class Create extends Component
         } else {
             $notacionArray = $this->dotToArray($model); //$activities["0"]["risks"]["0"]["causes"]
             $this->{$notacionArray}[] = ['name' => '', 'description' => ""];
+        }
+
+        if($model == 'attachments'){
+            $last_id = array_key_last($this->attachments);
+            $this->dispatchBrowserEvent('reApplyDropzone_'.$last_id);
         }
     }
 

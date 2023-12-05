@@ -40,9 +40,10 @@ class Edit extends Component
 
     protected function syncMedia(): void
     {
-        collect($this->mediaCollections)->flatten(1)
-            ->each(fn ($item) => Media::where('uuid', $item['uuid'])
-                ->update(['model_id' => $this->attachment->id]));
+        $collect = collect($this->mediaCollections)->flatten(1);
+
+        $collect->each(fn ($item) => Media::where('uuid', $item['uuid'])
+            ->update(['model_id' => $this->attachment->id]));
 
         Media::whereIn('uuid', $this->mediaToRemove)->delete();
     }
@@ -52,9 +53,7 @@ class Edit extends Component
         $this->attachment = $attachment;
         $this->initListsForFields();
         $this->mediaCollections = [
-
             'attachment_src' => $attachment->src,
-
         ];
     }
 
@@ -86,6 +85,10 @@ class Edit extends Component
                 'exists:attachments_categories,id',
                 'required',
             ],
+            'attachment.description' => [
+                'string',
+                'nullable',
+            ],
             'mediaCollections.attachment_src' => [
                 'array',
                 'nullable',
@@ -94,33 +97,32 @@ class Edit extends Component
                 'integer',
                 'exists:media,id',
             ],
-            Rule::in([
-                'text/plain',
-                'text/html',
-                'text/css',
-                // ... otras opciones ...
-                'application/pdf',
-                'application/zip',
-                'application/json',
-                'application/xml',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                // ... otras opciones ...
-                'image/jpeg',
-                'image/png',
-                'image/gif',
-                // ... otras opciones ...
-                'audio/mpeg',
-                'audio/wav',
-                'audio/ogg',
-                // ... otras opciones ...
-                'video/mp4',
-                'video/webm',
-                'video/ogg',
-                // ... otras opciones ...
-            ]),
-            'attachment.description' => [
+            'mediaCollections.attachment_src.*.mime_type' => [
                 'string',
-                'nullable',
+                Rule::in([
+                    'text/plain',
+                    'text/html',
+                    'text/css',
+                    // ... otras opciones ...
+                    'application/pdf',
+                    'application/zip',
+                    'application/json',
+                    'application/xml',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    // ... otras opciones ...
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                    // ... otras opciones ...
+                    'audio/mpeg',
+                    'audio/wav',
+                    'audio/ogg',
+                    // ... otras opciones ...
+                    'video/mp4',
+                    'video/webm',
+                    'video/ogg',
+                    // ... otras opciones ...
+                ]),
             ],
         ];
     }

@@ -20,7 +20,9 @@ use App\Models\ActivitiesRisksPolitic;
 use App\Models\RisksControlsFrecuency;
 use App\Models\ActivitiesRisksConsequence;
 use App\Models\ActivitiesRisksProbability;
+use App\Models\AttachmentsCategory;
 use Illuminate\Support\Arr;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Edit extends Component
 {
@@ -43,6 +45,50 @@ class Edit extends Component
     public array $activities = [];
 
     public array $kpis = [];
+
+    public array $attachments = [];
+
+    public array $mediaCollections = [];
+
+    public array $mediaToRemove = [];
+
+    public function addMedia($media , $in = null ): void
+    {
+        if ($in === null) {
+            $in = $media['model_id'];
+        }
+        $this->mediaCollections[$media['collection_name']][$in][] = $media;
+    }
+
+    public function removeMedia($media , $in = null): void
+    {
+        if ($in === null) {
+            $in = $media['model_id'];
+        }
+
+        $collection = collect($this->mediaCollections[$media['collection_name']][$in]);
+        // Collection está igual;
+        $this->mediaCollections[$media['collection_name']][$in] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
+
+        $this->mediaToRemove[] = $media['uuid'];
+
+    }
+
+    public function getMediaCollection($name)
+    {
+        dd($this->mediaCollections);
+        return $this->mediaCollections[$name];
+    }
+
+    protected function syncMedia( $attachment ,  $in = null ): void
+    {
+        $collection = collect( collect($this->mediaCollections )->flatten(1)[$in] );
+
+        $collection->each(fn ($item) => Media::where('uuid', $item['uuid'])
+                ->update(['model_id' => $attachment->id]));
+
+        Media::whereIn('uuid', $this->mediaToRemove)->delete();
+    }
 
     public function pivot_many_format($data, $model)
     {
@@ -79,14 +125,12 @@ class Edit extends Component
         $this->output          = $relations_many['output']->pluck('id')->toArray();
         $this->objective_group = $relations_many['objectiveGroup']->pluck('id')->toArray();
 
-        $this->inputs = $this->pivot_many_format($relations_many['input'] , new Input());
-        $this->glossaries = $this->pivot_many_format($relations_many['glosary'] , new Glossary());
-        $this->outputs = $this->pivot_many_format($relations_many['output'] , new Output());
-        $this->objectives_groups = $this->pivot_many_format($relations_many['objectiveGroup'] , new ObejctivesGroup());
+        $this->inputs = $this->pivot_many_format($relations_many['input'], new Input());
+        $this->glossaries = $this->pivot_many_format($relations_many['glosary'], new Glossary());
+        $this->outputs = $this->pivot_many_format($relations_many['output'], new Output());
+        $this->objectives_groups = $this->pivot_many_format($relations_many['objectiveGroup'], new ObejctivesGroup());
 
-
-
-        $this->process = $this->process->load(['kpis', 'activities' => function ($query) {
+        $this->process = $this->process->load(['kpis', 'attachments.media', 'activities' => function ($query) {
             return $query->with(['risks' => function ($query) {
                 return $query->with(
                     'causes',
@@ -99,6 +143,11 @@ class Edit extends Component
         $this->activities = $this->process->activities->toArray();
 
         $this->kpis = $this->process->kpis->toArray();
+
+        $this->attachments = $this->process->attachments->toArray();
+        foreach ($this->attachments as $index => $attachment) {
+            $this->mediaCollections['attachment_src'][$index] = $attachment["src"];
+        }
 
         $this->initListsForFields();
     }
@@ -125,6 +174,15 @@ class Edit extends Component
         $this->validate();
 
         $this->process->save();
+
+        $this->process->attachments()->delete();
+        foreach ($this->attachments as $i => $attachment) {
+            $attachment_model = $this->process->attachments()->create($attachment);
+            if ( collect($this->mediaCollections)->flatten(1)[$i] ?? false ){
+                $this->syncMedia( $attachment_model , $i );
+            }
+        }
+
         $this->process->input()->sync(
             $this->refactor_many_to_many($this->inputs, new Input())
         );
@@ -299,6 +357,8 @@ class Edit extends Component
         $this->listsForFields['frecuency']          = RisksControlsFrecuency::pluck('name', 'id')->toArray();
         $this->listsForFields['method']             = RisksControlsMethod::pluck('name', 'id')->toArray();
         $this->listsForFields['type']               = RisksControlsType::pluck('name', 'id')->toArray();
+
+        $this->listsForFields['category']           = AttachmentsCategory::pluck('name', 'id')->toArray();
     }
 
 
@@ -360,6 +420,11 @@ class Edit extends Component
         } else {
             $notacionArray = $this->dotToArray($model); //$activities["0"]["risks"]["0"]["causes"]
             $this->{$notacionArray}[] = ['name' => '', 'description' => ""];
+        }
+
+        if ($model == 'attachments') {
+            $last_id = array_key_last($this->attachments);
+            $this->dispatchBrowserEvent('reApplyDropzone_' . $last_id);
         }
     }
 
@@ -553,5 +618,4 @@ class Edit extends Component
         $this->objectives_groups = $objectives_groups;
         $this->dispatchBrowserEvent('apply_select2');
     }
-
 }
